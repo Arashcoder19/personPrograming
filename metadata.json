@@ -1,0 +1,6 @@
+{
+  "name": "دفتر من",
+  "description": "دفتر من: برنامه جامع مدیریت کارهای روزانه، پروژه‌ها، امور مالی، خریدها، اهداف، ایده‌ها، جلسات تفکر و رشد فردی با تقویم شمسی",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

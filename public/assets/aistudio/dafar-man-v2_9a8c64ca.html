@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>دفتر من</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&family=Markazi+Text:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f1f5f4;--pn:#ffffff;--pn2:#e7efed;--tx:#13201f;--mut:#566664;--bd:#d0dbd8;--ac:#0b7a7c;--on-ac:#ffffff;--bad:#b3322d;--good:#2b7a4b;--warn:#a05f00}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1819;--pn:#152527;--pn2:#1c3134;--tx:#e5eeed;--mut:#9bb0ae;--bd:#2c4346;--ac:#4cc2bf;--on-ac:#06292a;--bad:#f08a84;--good:#6fd39a;--warn:#e8b24a}}
+:root[data-theme="dark"]{--bg:#0d1819;--pn:#152527;--pn2:#1c3134;--tx:#e5eeed;--mut:#9bb0ae;--bd:#2c4346;--ac:#4cc2bf;--on-ac:#06292a;--bad:#f08a84;--good:#6fd39a;--warn:#e8b24a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.8 Vazirmatn,Tahoma,sans-serif}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,p{margin:0}
+#top{display:flex;align-items:center;gap:10px;padding:10px 14px;flex-wrap:wrap}
+.brand{font:700 30px/1 'Markazi Text',Vazirmatn,serif;color:var(--ac)}
+#nav{display:flex;gap:2px;overflow-x:auto;padding:0 8px;border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.nb{padding:10px 13px;border:0;background:none;color:var(--mut);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.nb[aria-current="page"]{color:var(--tx);font-weight:700;border-color:var(--ac)}
+.nb:hover{color:var(--tx)}
+#main{padding:16px 14px 40px;max-width:1040px;margin:0 auto;width:100%;min-width:0}
+@media (min-width:900px){
+ #shell{display:grid;grid-template-columns:190px minmax(0,1fr);align-items:start}
+ #top{grid-column:1/-1}
+ #nav{flex-direction:column;overflow:visible;border-bottom:0;border-inline-end:1px solid var(--bd);top:calc(env(safe-area-inset-top,0px) + 8px);padding:0 10px 0 8px;height:fit-content;margin-inline-start:8px}
+ .nb{text-align:start;border-bottom:0;border-inline-start:3px solid transparent;border-radius:6px;padding:9px 12px}
+ .nb[aria-current="page"]{border-inline-start-color:var(--ac);background:var(--pn2)}
+}
+.h1{font:700 32px/1.25 'Markazi Text',Vazirmatn,serif;margin:2px 0 6px}
+.h2{font-size:16px;font-weight:700;margin-bottom:8px}
+.mut{color:var(--mut);font-size:13px}
+.late{color:var(--bad);font-weight:700}.ok{color:var(--good)}
+.f1{flex:1 1 140px;min-width:0}.f2{flex:2 1 200px;min-width:0}
+.mt{margin-top:10px}
+.pn{background:var(--pn);border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.pn2{background:var(--pn2);border-radius:8px;padding:10px 12px;margin:10px 0}
+details.pn>summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+details.pn[open]>summary{margin-bottom:10px}
+details.mini{margin-top:4px}details.mini>summary{cursor:pointer;color:var(--mut);font-size:13px}
+.grid{display:grid;gap:10px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))}
+.fl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fl>select{flex:0 1 135px}.fl>.dtw{flex:0 1 150px}
+.fld{display:block;min-width:0}.fld>span{display:block;font-size:13px;color:var(--mut)}
+.in{width:100%;min-width:0;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:8px;padding:7px 10px;line-height:1.5}
+textarea.in{resize:vertical}
+.in::placeholder{color:var(--mut);opacity:.85}
+.in[aria-invalid="true"]{border-color:var(--bad)}
+:where(button,a,input,select,textarea,summary):focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.btn{display:inline-block;border:1px solid var(--bd);background:var(--pn);border-radius:8px;padding:6px 13px;cursor:pointer;white-space:nowrap;text-decoration:none;line-height:1.5;transition:border-color .15s}
+.btn:hover{border-color:var(--ac)}
+.btn.pri{background:var(--ac);color:var(--on-ac);border-color:var(--ac)}
+.btn.dng{color:var(--bad)}.btn.dng.arm{background:var(--bad);color:var(--bg);border-color:var(--bad)}
+.btn.sm{padding:2px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.badge{display:inline-block;font-size:12px;padding:0 9px;border-radius:99px;border:1px solid var(--bd);color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.chip{border:1px solid var(--bd);background:var(--pn);border-radius:99px;padding:3px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ac);color:var(--on-ac);border-color:var(--ac)}
+input[type=checkbox]{width:19px;height:19px;accent-color:var(--ac);margin:4px 0 0}
+.bar{height:6px;border-radius:9px;background:var(--bd);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ac)}.bar i.over{background:var(--bad)}
+.row{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:10px 6px 10px 2px;border-bottom:1px solid var(--bd);border-inline-start:4px solid transparent;padding-inline-start:10px}
+.row:last-child{border-bottom:0}
+.p-high{border-inline-start-color:var(--bad)}.p-mid{border-inline-start-color:var(--warn)}.p-low{border-inline-start-color:var(--good)}
+.tx-in{border-inline-start-color:var(--good)}.tx-out{border-inline-start-color:var(--bad)}
+.rb{min-width:0;display:grid;gap:6px}
+.done .tt{text-decoration:line-through;opacity:.6}
+.dtw{min-width:0}.dtw .jd{display:block;line-height:1.3}
+.tile{display:block;width:100%;text-align:start;background:var(--pn);border:1px solid var(--bd);border-inline-start:4px solid var(--ac);border-radius:6px 10px 10px 6px;padding:10px 12px;cursor:pointer}
+div.tile{cursor:default}
+.tile .v{font-size:21px;font-weight:700;line-height:1.5}
+.tile.neg{border-inline-start-color:var(--bad)}.tile.pos{border-inline-start-color:var(--good)}
+.hero{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:flex-end;margin-bottom:16px}
+.hero .h1{font-size:44px;margin:0}
+.hero .hp{flex:1 1 240px}
+.empty{color:var(--mut);padding:18px 8px;text-align:center}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.dot{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--bd);background:none;cursor:pointer;font-size:11px;color:var(--mut);padding:0}
+.dot[aria-pressed="true"]{background:var(--ac);border-color:var(--ac);color:var(--on-ac)}
+.dot.t{border-color:var(--tx)}
+.moods{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.mood{border:1px solid var(--bd);background:var(--pn);border-radius:10px;padding:4px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.mood[aria-pressed="true"]{border-color:var(--ac);background:var(--pn2);font-weight:700}
+.spark{display:flex;align-items:flex-end;gap:4px;height:84px;margin-top:6px}
+.spark>div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px;font-size:10px;color:var(--mut)}
+.spark i{display:block;width:100%;max-width:22px;background:var(--ac);border-radius:3px 3px 0 0;min-height:2px}
+.trend{display:flex;gap:12px;align-items:flex-end;margin-top:6px}
+.trend>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--mut)}
+.trend .pair{display:flex;align-items:flex-end;gap:3px;height:84px}
+.trend .pair i{display:block;width:13px;border-radius:3px 3px 0 0;min-height:2px}
+.i-in{background:var(--good)}.i-out{background:var(--bad)}
+.catrow{display:grid;grid-template-columns:110px 1fr auto;gap:10px;align-items:center;padding:3px 0;font-size:14px}
+@media (max-width:560px){.catrow{grid-template-columns:90px 1fr}.catrow .mut{grid-column:1/-1;margin-top:-6px}}
+.ov{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:50;padding:12px}
+.ov.on{display:flex}
+.md{width:100%;max-width:560px;max-height:92vh;overflow:auto;margin:0}
+#toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline:16px;max-width:440px;margin-inline:auto;z-index:80;background:var(--tx);color:var(--bg);padding:10px 14px;border-radius:10px;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s,transform .2s}
+#toast.on{opacity:1;transform:none}
+@media (max-width:640px){.in{font-size:16px}}
+@media (pointer:coarse){.btn{padding:10px 14px;min-height:44px}.btn.sm{min-height:36px}.in{min-height:44px}.nb{min-height:44px}.chip{padding:8px 16px}input[type=checkbox]{width:24px;height:24px}.dot{width:36px;height:36px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Responsive layout improvements: phones, tablets, laptops and wide screens */
+html{width:100%;min-width:0;overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{width:100%;min-width:0;overflow-x:clip}
+#shell{width:100%;min-width:0}
+#top,#nav,#main{min-width:0;max-width:100%}
+#top{padding-inline:clamp(10px,2.5vw,22px)}
+#main{padding-inline:clamp(10px,2.5vw,22px)}
+#nav{overscroll-behavior-inline:contain;scrollbar-width:thin;scrollbar-color:var(--bd) transparent}
+#nav .nb{flex:0 0 auto}
+.grid,.pn,.pn2,.hero,.fl,.row,.rb,.tile{min-width:0}
+.grid>*{min-width:0}
+img,svg,video,canvas,iframe{max-width:100%}
+pre,code{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}
+input,select,textarea,button{max-width:100%}
+textarea{overflow-wrap:anywhere}
+button,.btn,.chip,.mood{touch-action:manipulation}
+.ov{padding:clamp(8px,2vw,20px);padding-bottom:calc(clamp(8px,2vw,20px) + env(safe-area-inset-bottom,0px))}
+.md{max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overscroll-behavior:contain}
+@media (max-width:899px){
+ #shell{display:flex;flex-direction:column}
+ #top{gap:8px;padding-block:12px}
+ .brand{font-size:28px}
+ #nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;flex-direction:row;align-items:stretch;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:0 8px;border-bottom:1px solid var(--bd);border-inline-end:0;margin:0;gap:2px;scroll-snap-type:inline proximity;-webkit-overflow-scrolling:touch}
+ #nav .nb{scroll-snap-align:start;padding:9px 12px;border:0;border-bottom:3px solid transparent;border-radius:0;flex:0 0 auto}
+ #nav .nb[aria-current="page"]{border-bottom-color:var(--ac);border-inline-start-color:transparent;background:transparent}
+ #main{padding-top:14px;padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+ .h1{font-size:clamp(25px,5vw,32px)}
+ .hero .h1{font-size:clamp(32px,7vw,44px)}
+}
+@media (max-width:640px){
+ body{font-size:14px;line-height:1.75}
+ #top{align-items:center}
+ #top .f1{display:none}
+ #main{padding-inline:10px}
+ .pn{padding:10px;margin-bottom:8px;border-radius:9px}
+ .pn2{padding:9px}
+ .g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}
+ .fl{align-items:stretch}
+ .fl>select,.fl>.dtw{flex:1 1 130px;min-width:0}
+ .fl>.btn{flex:0 1 auto}
+ .fld{width:100%;min-width:0}
+ .hero{gap:8px;margin-bottom:12px}
+ .hero .hp{flex-basis:100%}
+ .row{grid-template-columns:auto minmax(0,1fr);gap:7px;padding-inline:2px 4px}
+ .catrow{grid-template-columns:minmax(70px,auto) minmax(0,1fr);gap:6px}
+ .catrow>*{min-width:0;overflow-wrap:anywhere}
+ .tile .v{font-size:19px;overflow-wrap:anywhere}
+ .btn{white-space:normal;overflow-wrap:anywhere}
+ .dots{gap:4px}
+ .dot{width:30px;height:30px}
+ .spark,.trend{max-width:100%;overflow:hidden}
+ .ov{align-items:flex-end;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px))}
+ .md{max-width:none;max-height:calc(100dvh - 16px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));border-radius:12px 12px 8px 8px}
+}
+@media (max-width:380px){
+ .brand{font-size:25px}
+ #nav .nb{padding-inline:9px;font-size:13px}
+ .h2{font-size:15px}
+ .fl{gap:6px}
+ .fl>.btn{flex:1 1 auto}
+ .row{grid-template-columns:1fr}
+ .row> :first-child{justify-self:start}
+ .catrow{grid-template-columns:minmax(0,1fr)}
+ .catrow .mut{grid-column:auto;margin-top:0}
+}
+@media (min-width:900px) and (max-width:1100px){
+ #shell{grid-template-columns:165px minmax(0,1fr)}
+ #main{padding-inline:12px}
+}
+@media (min-width:1400px){
+ #main{max-width:1180px}
+}
+@media (prefers-reduced-motion:reduce){#nav{scroll-behavior:auto}}
+
+</style>
+</head>
+<body>
+<div id="shell">
+<header id="top">
+  <span class="brand">دفتر من</span><span id="sync" class="mut" role="status"></span><span class="f1"></span>
+  <button class="btn sm" data-act="theme" aria-label="تغییر پوسته (خودکار، روشن، تیره)">◐ پوسته</button>
+  <button class="btn sm" data-act="bkopen">پشتیبان‌گیری</button>
+</header>
+<nav id="nav" aria-label="بخش‌های برنامه"></nav>
+<main id="main" tabindex="-1"></main>
+</div>
+<div id="ov" class="ov" role="dialog" aria-modal="true" aria-label="پشتیبان‌گیری و بازیابی">
+ <div class="pn md">
+  <h2 class="h2">پشتیبان‌گیری و بازیابی</h2>
+  <p class="mut" id="bk-m">این متن همهٔ داده‌های شماست. کپی یا ذخیره‌اش کنید تا نسخهٔ پشتیبان داشته باشید. برای بازیابی، متن پشتیبان را اینجا بچسبانید یا فایل را انتخاب کنید.</p>
+  <textarea id="bk-t" class="in mt" rows="10" dir="ltr" spellcheck="false" aria-label="متن JSON داده‌ها"></textarea>
+  <div class="fl mt">
+    <button class="btn" data-act="bkcopy">کپی متن</button>
+    <button class="btn" id="bk-dl" data-act="bkdl" hidden>ذخیرهٔ فایل</button>
+    <label class="btn">انتخاب فایل<input id="bk-f" type="file" accept=".json,application/json" hidden></label>
+    <button class="btn pri" data-act="bkload">جایگزینی با این متن</button>
+    <span class="f1"></span><button class="btn" data-act="bkclose">بستن</button>
+  </div>
+ </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+'use strict';
+/* ================= ابزارها ================= */
+const LSK='dafar-v1',TK='dafar-theme';
+const NAMES=['proj','task','tx','buy','goal','idea','book','rlog','work','skill','sprac','habit','jour','sess'];
+const blank=()=>{const d={set:{budgets:{}}};NAMES.forEach(n=>d[n]=[]);return d};
+let D=blank();
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const rid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-3);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0'),FAD='۰۱۲۳۴۵۶۷۸۹';
+const fa=x=>String(x).replace(/\d/g,d=>FAD[d]);
+const num=s=>{const v=Number(String(s??'').replace(/[۰-۹]/g,c=>FAD.indexOf(c)).replace(/[٠-٩]/g,c=>'٠١٢٣٤٥٦٧٨٩'.indexOf(c)).replace(/[,٬،\s]/g,'').replace(/٫/g,'.'));return isFinite(v)?v:0};
+const fmt=n=>Math.round(n||0).toLocaleString('fa-IR');
+const vN=v=>v===''||v==null?'':fmt(v);
+const sum=(a,k)=>a.reduce((s,x)=>s+num(x[k]),0);
+const fh=m=>fa((m/60).toFixed(1)).replace('.','٫');
+const MN=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+const g2j=(gy,gm,gd)=>{const g=[0,31,59,90,120,151,181,212,243,273,304,334],y2=gm>2?gy+1:gy;let d=355666+365*gy+Math.floor((y2+3)/4)-Math.floor((y2+99)/100)+Math.floor((y2+399)/400)+gd+g[gm-1],jy=-1595+33*Math.floor(d/12053);d%=12053;jy+=4*Math.floor(d/1461);d%=1461;if(d>365){jy+=Math.floor((d-1)/365);d=(d-1)%365}const jm=d<186?1+Math.floor(d/31):7+Math.floor((d-186)/30),jdd=1+(d<186?d%31:(d-186)%30);return jy+'/'+pad(jm)+'/'+pad(jdd)};
+const jstr=d=>g2j(d.getFullYear(),d.getMonth()+1,d.getDate());
+const today=()=>jstr(new Date());
+const add=n=>{const d=new Date();d.setDate(d.getDate()+n);return jstr(d)};
+const lastDays=n=>Array.from({length:n},(_,i)=>add(-(n-1-i)));
+const nd=s=>{s=String(s??'').trim().replace(/[۰-۹]/g,c=>FAD.indexOf(c)).replace(/[٠-٩]/g,c=>'٠١٢٣٤٥٦٧٨٩'.indexOf(c));if(!s)return'';const m=s.match(/^(\d{4})\D(\d{1,2})\D(\d{1,2})$/);if(!m)return null;const y=+m[1],mo=+m[2],d=+m[3];if(mo<1||mo>12||d<1||d>(mo<=6?31:30))return null;return y+'/'+pad(mo)+'/'+pad(d)};
+const jd=s=>{const m=nd(s);if(!m)return'';const[y,mo,d]=m.split('/').map(Number);return fa(d)+' '+MN[mo-1]+' '+fa(y)};
+const ymNow=()=>{const[y,m]=today().split('/').map(Number);return{y,m}};
+const ymStr=o=>o.y+'/'+pad(o.m);
+const ymAdd=(o,n)=>{const t=o.y*12+(o.m-1)+n;return{y:Math.floor(t/12),m:t%12+1}};
+const ymLabel=o=>MN[o.m-1]+' '+fa(o.y);
+const urlOf=l=>{l=(l||'').trim();if(!l)return'';if(/^https?:\/\//i.test(l))return l;if(/^[a-z][a-z0-9+.-]*:/i.test(l))return'';return'https://'+l};
+const streak=h=>{const S=new Set(h.log||[]);let n=0,i=S.has(today())?0:1;while(i<4000&&S.has(add(-i))){n++;i++}return n};
+
+/* ================= برچسب‌ها ================= */
+const AREA={work:'کاری',personal:'شخصی',home:'خانه',study:'یادگیری'};
+const PR={low:'کم',mid:'متوسط',high:'زیاد'};
+const TS={todo:'انجام نشده',doing:'در حال انجام',done:'انجام شد'};
+const PS={plan:'برنامه‌ریزی',doing:'در حال انجام',hold:'متوقف',done:'تمام‌شده'};
+const GCAT={personal:'فردی',career:'شغلی',finance:'مالی',health:'سلامت و ورزش',learning:'یادگیری',relation:'روابط',other:'سایر'};
+const GH={short:'کوتاه‌مدت',mid:'میان‌مدت',long:'بلندمدت'};
+const GST={active:'فعال',done:'محقق شد',hold:'متوقف',dropped:'رها شد'};
+const IT={idea:'ایده',plan:'طرح'};
+const IST={new:'جدید',review:'در حال بررسی',approved:'تصویب‌شده',doing:'در حال اجرا',done:'انجام‌شده',hold:'متوقف',rejected:'ردشده'};
+const BKIND={need:'ضروری',want:'دلخواه',daily:'روزمره'};
+const BST={want:'می‌خواهم',plan:'برنامه‌ریزی‌شده',bought:'خریده شد',drop:'منصرف شدم'};
+const BKS={want:'در فهرست',reading:'در حال مطالعه',done:'تمام شد',pause:'متوقف'};
+const INT={1:'سبک',2:'متوسط',3:'سنگین'};
+const MOOD={1:'خیلی بد',2:'بد',3:'معمولی',4:'خوب',5:'عالی'},EMO=['😞','😕','😐','🙂','😄'];
+const SESK={think:'تفکر آزاد',week:'مرور هفتگی',month:'مرور ماهانه',decide:'تصمیم‌گیری',idea:'ایده‌پردازی'};
+const MST={plan:'برنامه‌ریزی‌شده',held:'برگزار شده'};
+const VD={pending:'در انتظار تصمیم',approved:'تصویب شد',rejected:'رد شد',postponed:'به تعویق افتاد'};
+const TT={out:'هزینه',in:'درآمد'};
+const SESTPL={
+ think:'چه چیزی ذهنم را مشغول کرده است؟\nچه چیزی را نمی‌دانم و باید بدانم؟\nاگر مجبور باشم همین امروز یک قدم بردارم، آن قدم چیست؟',
+ week:'این هفته چه چیزهایی خوب پیش رفت؟\nچه چیزی کند شد و دلیلش چه بود؟\nسه اولویت هفتهٔ بعد کدامند؟',
+ month:'نسبت به اهدافم کجا هستم؟\nپول، سلامت، یادگیری و روابطم در این ماه چگونه بود؟\nماه بعد چه چیزی را شروع کنم، متوقف کنم یا ادامه بدهم؟',
+ decide:'مسئلهٔ پیش رو چیست؟\nگزینه‌ها کدامند و هر کدام چه هزینه و چه سودی دارد؟\nاگر یک سال بعد به این تصمیم نگاه کنم چه می‌گویم؟',
+ idea:'هدف از این ایده‌پردازی چیست؟\nچه محدودیت‌هایی دارم؟\nکوچک‌ترین نسخه‌ای که می‌شود امتحان کرد چیست؟'};
+const CATS_OUT=['خوراک','حمل‌ونقل','مسکن','قبوض','سلامت','آموزش','تفریح','پوشاک','خرید','اقساط','هدیه و کمک','سایر'];
+const CATS_IN=['حقوق','پروژه','فروش','سرمایه‌گذاری','هدیه','سایر'];
+const WTYPES=['پیاده‌روی','دویدن','باشگاه و وزنه','شنا','دوچرخه','یوگا و کشش','ورزش گروهی','طناب','سایر'];
+const NAV=[['today','امروز'],['search','جستجوی کل دفتر'],['task','تسک‌ها'],['proj','پروژه‌ها'],['fin','مالی'],['buy','خریدها'],['goal','اهداف'],['idea','ایده‌ها'],['grow','رشد فردی'],['sess','جلسات تفکر']];
+
+/* ================= ذخیره‌سازی (حساب کاربر + نسخهٔ محلی) ================= */
+let cloud=null,uid=null,dirty=new Set(),saved={},saving=false,loadedRemote=false,editedEarly=false,saveT=0,retryT=0,warned=0;
+const enc=new TextEncoder();
+function setStatus(s){const e=$('#sync');if(!e)return;e.textContent=s==='cloud'?'ذخیره شد در حساب شما':s==='saving'?'در حال ذخیره…':s==='err'?'ذخیره در حساب انجام نشد؛ دوباره تلاش می‌شود':'فقط در همین مرورگر ذخیره می‌شود';e.title=s==='local'?'برای نگهداری دائمی از دکمهٔ پشتیبان‌گیری استفاده کنید.':''}
+function lsSave(){try{localStorage.setItem(LSK,JSON.stringify(D))}catch(e){if(Date.now()-warned>20000){warned=Date.now();toast('ذخیره در مرورگر انجام نشد. از پشتیبان‌گیری استفاده کنید.')}}}
+function touch(){for(const c of arguments)dirty.add(c);if(!loadedRemote)editedEarly=true;clearTimeout(saveT);saveT=setTimeout(()=>{lsSave();persist()},500)}
+function flush(){if(saveT){clearTimeout(saveT);saveT=0;lsSave()}}
+function chunks(items){const out=[];let cur=[],sz=0;for(const it of items){const s=enc.encode(JSON.stringify(it)).length+1;if(cur.length&&sz+s>150000){out.push(cur);cur=[];sz=0}cur.push(it);sz+=s}out.push(cur);return out}
+const dref=id=>cloud.doc('data/users/'+uid+'/'+id);
+async function put(id,body){const s=JSON.stringify(body);if(saved[id]===s)return;await dref(id).set(body);saved[id]=s}
+async function persist(){
+ if(!cloud||saving||!dirty.size||!loadedRemote)return;saving=true;setStatus('saving');let c=null;
+ try{
+  while(dirty.size){
+   c=[...dirty][0];dirty.delete(c);
+   if(c==='set'){await put('c-set-0',{name:'set',n:0,data:D.set});continue}
+   const ch=chunks(D[c]);
+   for(let i=0;i<ch.length;i++){if(i===0&&!ch[0].length&&!saved['c-'+c+'-0'])continue;await put('c-'+c+'-'+i,{name:c,n:i,items:ch[i]})}
+   for(const id of Object.keys(saved)){const m=id.match(/^c-([a-z]+)-(\d+)$/);if(m&&m[1]===c&&+m[2]>=ch.length){await dref(id).delete();delete saved[id]}}
+  }
+  setStatus('cloud');
+ }catch(e){if(c)dirty.add(c);setStatus('err');clearTimeout(retryT);retryT=setTimeout(persist,15000)}
+ saving=false;if(dirty.size&&!retryT)persist();
+}
+function fixD(){
+ D.set=D.set&&typeof D.set==='object'?D.set:{};D.set.budgets=D.set.budgets&&typeof D.set.budgets==='object'?D.set.budgets:{};
+ NAMES.forEach(n=>{D[n]=(Array.isArray(D[n])?D[n]:[]).filter(x=>x&&typeof x==='object');D[n].forEach(x=>{if(!x.id)x.id=rid()})});
+ D.goal.forEach(g=>{if(!Array.isArray(g.kr))g.kr=[]});
+ D.idea.forEach(e=>{if(!Array.isArray(e.log))e.log=[]});
+ D.habit.forEach(h=>{if(!Array.isArray(h.log))h.log=[]});
+ D.sess.forEach(s=>{['items','res'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=[]})});
+}
+function loadLocal(){try{const s=JSON.parse(localStorage.getItem(LSK)||'null');if(s&&typeof s==='object'){const d=blank();NAMES.forEach(n=>{if(Array.isArray(s[n]))d[n]=s[n]});if(s.set&&typeof s.set==='object')d.set=s.set;D=d}}catch(e){}fixD()}
+async function loadRemote(){
+ const snap=await cloud.collection('data/users/'+uid).get(),g={};
+ snap.docs.forEach(d=>{const m=d.id.match(/^c-([a-z]+)-(\d+)$/),b=d.data();if(!m||!b)return;
+  saved[d.id]=JSON.stringify(m[1]==='set'?{name:b.name,n:b.n,data:b.data}:{name:b.name,n:b.n,items:b.items});(g[m[1]]=g[m[1]]||[]).push({n:+m[2],b})});
+ return g}
+function applyRemote(g){
+ const nd2=blank();
+ for(const k in g){const arr=g[k].sort((a,b)=>a.n-b.n);
+  if(k==='set')nd2.set=JSON.parse(JSON.stringify(arr[0].b.data||{}));
+  else if(NAMES.includes(k))nd2[k]=arr.flatMap(x=>JSON.parse(JSON.stringify(x.b.items||[])))}
+ D=nd2;fixD()}
+const hasData=()=>NAMES.some(n=>D[n].length)||Object.keys(D.set.budgets).length>0;
+async function initCloud(){
+ try{
+  const c=window.claude;if(!c||!c.use){return}
+  c.use('downloads').then(x=>{if(x){dlApi=x;const b=$('#bk-dl');if(b)b.hidden=false}}).catch(()=>{});
+  const[db,user]=await Promise.all([c.use('db'),c.use('user')]);
+  if(!db||!user){setStatus('local');return}
+  const id=await user.id();if(!id){setStatus('local');return}
+  cloud=db;uid=id;
+  const g=await loadRemote();
+  if(Object.keys(g).length){
+   const local=D;applyRemote(g);
+   if(editedEarly)NAMES.forEach(c2=>{const ids=new Set(D[c2].map(x=>x.id)),ex=local[c2].filter(x=>!ids.has(x.id));if(ex.length){D[c2]=D[c2].concat(ex);dirty.add(c2)}});
+   lsSave();
+  }else if(hasData()){NAMES.forEach(n=>dirty.add(n));dirty.add('set')}
+  loadedRemote=true;setStatus('cloud');render();persist();
+ }catch(e){setStatus('local')}
+}
+let dlApi=null;
+async function pull(){if(!cloud||dirty.size||saving)return;const ae=document.activeElement;if(ae&&ae.matches&&ae.matches('input,textarea,select'))return;try{const g=await loadRemote();if(Object.keys(g).length&&!dirty.size&&!saving){applyRemote(g);lsSave();render()}}catch(e){}}
+
+/* ================= قطعات رابط کاربری ================= */
+const gv=id=>{const e=document.getElementById(id);return e?e.value.trim():''};
+const fld=(l,h,c='')=>`<label class="fld ${c}"><span>${l}</span>${h}</label>`;
+const optS=(m,v,blank)=>(blank!=null?`<option value="">${esc(blank)}</option>`:'')+Object.keys(m).map(k=>`<option value="${esc(k)}"${k===v?' selected':''}>${esc(m[k])}</option>`).join('');
+const inp=(c,i,k,v,o={})=>{const t=o.t||'',ph=o.ph||(t==='d'?'1405/01/01':'');return `<input class="in${o.cls?' '+o.cls:''}" data-c="${c}" data-i="${i}" data-k="${k}"${o.p?` data-p="${o.p}"`:''}${t?` data-t="${t}"`:''}${t==='d'?' dir="ltr" inputmode="numeric"':''}${t==='n'||t==='p'?' inputmode="decimal"':''}${ph?` placeholder="${esc(ph)}"`:''}${o.l?` list="${o.l}"`:''} aria-label="${esc(o.a||o.ph||'')}" value="${esc(t==='n'||t==='p'?vN(v):v)}">`};
+const dt=(c,i,k,v,o={})=>`<div class="dtw">${inp(c,i,k,v,{...o,t:'d'})}<span class="mut jd${o.late?' late':''}">${jd(v)}${o.late?' (عقب‌افتاده)':''}</span></div>`;
+const sel=(c,i,k,m,v,o={})=>`<select class="in" data-c="${c}" data-i="${i}" data-k="${k}"${o.p?` data-p="${o.p}"`:''} data-r="1" aria-label="${esc(o.a||'')}">${optS(m,v,o.blank)}</select>`;
+const ta=(c,i,k,v,o={})=>`<textarea class="in" rows="${o.r||3}" data-c="${c}" data-i="${i}" data-k="${k}"${o.p?` data-p="${o.p}"`:''} placeholder="${esc(o.ph||'')}" aria-label="${esc(o.a||o.ph||'')}">${esc(v)}</textarea>`;
+const chk=(c,i,k,v,a,o={})=>`<input type="checkbox" data-c="${c}" data-i="${i}" data-k="${k}"${o.p?` data-p="${o.p}"`:''} data-r="1" aria-label="${esc(a)}"${v?' checked':''}>`;
+const delB=(c,i,p,txt)=>`<button class="btn sm dng" data-act="del" data-c="${c}" data-i="${i}"${p?` data-p="${p}"`:''}>${txt||'حذف'}</button>`;
+const bar=(pc,cls='')=>`<div class="bar"><i class="${cls}" style="width:${Math.max(0,Math.min(100,pc||0))}%"></i></div>`;
+const badge=t=>t?`<span class="badge">${esc(t)}</span>`:'';
+const empty=t=>`<div class="empty">${t}</div>`;
+const addDate=(id,v)=>`<input class="in" id="${id}" dir="ltr" inputmode="numeric" value="${v}" placeholder="1405/01/01" aria-label="تاریخ" style="flex:0 1 135px">`;
+const pMap=()=>Object.fromEntries(D.proj.map(p=>[p.id,p.name||'(بدون نام)']));
+const pname=id=>(D.proj.find(p=>p.id===id)||{}).name||'';
+const chips=(k,opts,cur)=>`<div class="chips">${opts.map(([v,l])=>`<button class="chip" data-act="f" data-k="${k}" data-v="${v}" aria-pressed="${cur===v}">${l}</button>`).join('')}</div>`;
+const tile=(l,v,sub,go,cls='')=>{const inner=`<div class="mut">${l}</div><div class="v">${v}</div>${sub?`<div class="mut">${sub}</div>`:''}`;return go?`<button class="tile ${cls}" data-act="go" data-v="${go}">${inner}</button>`:`<div class="tile ${cls}">${inner}</div>`};
+const sumBox=(name,arg,tag,cls)=>`<${tag||'div'}${cls?` class="${cls}"`:''} data-sum="${name}" data-arg="${esc(arg||'')}">${SUMS[name](arg||'')}</${tag||'div'}>`;
+const PW={high:0,mid:1,low:2};
+const cmpTask=(a,b)=>((a.st==='done')-(b.st==='done'))||(a.due||'9').localeCompare(b.due||'9')||(PW[a.prio]??1)-(PW[b.prio]??1);
+const finCalc=pred=>{const r={inc:0,out:0,cats:{}};D.tx.filter(pred).forEach(x=>{const a=num(x.amt);if(x.type==='in')r.inc+=a;else{r.out+=a;const c=x.cat||'بدون دسته';r.cats[c]=(r.cats[c]||0)+a}});return r};
+const gprog=g=>g.kr.length?Math.round(g.kr.filter(k=>k.done).length/g.kr.length*100):Math.max(0,Math.min(100,num(g.prog)));
+const entOf=it=>(it.kind==='goal'?D.goal:it.kind==='idea'?D.idea:D.proj).find(e=>e.id===it.ref);
+const entName=e=>e?(e.t||e.name||'(بدون عنوان)'):'(حذف‌شده)';
+const histOf=(kind,id)=>{const R=[];D.sess.forEach(s=>s.items.forEach(it=>{if(it.kind===kind&&it.ref===id)R.push({s,it})}));return R.sort((a,b)=>(b.s.d||'').localeCompare(a.s.d||''))};
+const openRes=()=>{const A=[];D.sess.forEach(s=>s.res.forEach(r=>{if(r.st!=='done')A.push({s,r})}));return A.sort((a,b)=>(a.r.due||'9').localeCompare(b.r.due||'9'))};
+let toastT=0;
+function toast(m,ms){const t=$('#toast');if(!t)return;t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),ms||3000)}
+const focusId=id=>{const e=document.getElementById(id);if(e)e.focus()};
+const bad=id=>{const e=document.getElementById(id);if(e){e.setAttribute('aria-invalid','true');e.focus()}toast('تاریخ معتبر نیست؛ نمونه: 1405/01/01')};
+
+/* ================= بخش‌های خلاصه (بدون ورودی؛ بدون بازسازی کادرها) ================= */
+const SUMS={
+ fin(){
+  const cur=ymNow(),pred=FA?(()=>true):(x=>(x.d||'').startsWith(ymStr(FM))),r=finCalc(pred),net=r.inc-r.out,rate=r.inc>0?Math.round(net/r.inc*100):null;
+  const bud=FA?{}:D.set.budgets,cn=Object.assign({},r.cats);Object.keys(bud).forEach(c=>{if(num(bud[c])>0&&!(c in cn))cn[c]=0});
+  const cats=Object.entries(cn).sort((a,b)=>b[1]-a[1]),mx=Math.max(1,r.out);
+  const base=FA?cur:FM,mons=[-5,-4,-3,-2,-1,0].map(n=>ymAdd(base,n)),data=mons.map(m=>finCalc(x=>(x.d||'').startsWith(ymStr(m)))),tm=Math.max(1,...data.map(d=>Math.max(d.inc,d.out)));
+  return `<div class="grid g4">${tile('درآمد',fmt(r.inc)+' ت','','','pos')}${tile('هزینه',fmt(r.out)+' ت','','','neg')}${tile(net>=0?'مانده (پس‌انداز)':'کسری',fmt(Math.abs(net))+' ت',rate!==null?'نرخ پس‌انداز: '+fa(rate)+'٪':'','',net<0?'neg':'pos')}</div>
+  <div class="grid g2 mt"><div class="pn"><div class="h2">هزینه به تفکیک دسته</div>${cats.length?cats.map(([c,v])=>{const lim=num(bud[c]);const pc=lim?v/lim*100:v/mx*100;return `<div class="catrow"><span>${esc(c)}</span>${bar(pc,lim&&v>lim?'over':'')}<span class="mut${lim&&v>lim?' late':''}">${fmt(v)}${lim?' از '+fmt(lim):''} ت</span></div>`}).join(''):'<div class="mut">هزینه‌ای در این بازه ثبت نشده است.</div>'}</div>
+  <div class="pn"><div class="h2">روند ۶ ماه اخیر</div><div class="trend">${mons.map((m,i)=>`<div title="${ymLabel(m)}"><div class="pair"><i class="i-in" style="height:${Math.round(data[i].inc/tm*80)}px"></i><i class="i-out" style="height:${Math.round(data[i].out/tm*80)}px"></i></div><span>${MN[m.m-1]}</span></div>`).join('')}</div><div class="mut mt"><span class="ok">■</span> درآمد&nbsp;&nbsp;<span class="late">■</span> هزینه</div></div></div>`},
+ buy(){
+  const o=D.buy.filter(b=>b.st==='want'||b.st==='plan'),ym=ymStr(ymNow()),bm=D.buy.filter(b=>b.st==='bought'&&(b.d||'').startsWith(ym));
+  return tile('کل فهرست خرید',fmt(sum(o,'price'))+' ت',fa(o.length)+' مورد')+tile('ضروری‌های باقی‌مانده',fmt(sum(o.filter(b=>b.kind==='need'),'price'))+' ت')+tile('خریدهای این ماه',fmt(sum(bm,'price'))+' ت',fa(bm.length)+' مورد','','pos')},
+ psh(id){const p=D.proj.find(x=>x.id===id);if(!p)return'';const T=D.task.filter(t=>t.pid===id),pc=T.length?Math.round(T.filter(t=>t.st==='done').length/T.length*100):0;return `<span class="mut">${fa(pc)}٪ انجام شده</span>${p.due?`<span class="mut${p.status!=='done'&&p.due<today()?' late':''}">موعد ${jd(p.due)}</span>`:''}`},
+ pst(id){const p=D.proj.find(x=>x.id===id);if(!p)return'';const T=D.task.filter(t=>t.pid===id),dn=T.filter(t=>t.st==='done').length,r=finCalc(x=>x.pid===id),net=r.inc-r.out,b=num(p.budget);
+  return `<div class="grid g4"><div><div class="mut">تسک‌ها</div><b>${fa(dn)} از ${fa(T.length)}</b>${bar(T.length?dn/T.length*100:0)}</div><div><div class="mut">درآمد</div><b>${fmt(r.inc)} ت</b></div><div><div class="mut">هزینه</div><b>${fmt(r.out)} ت</b></div><div><div class="mut">${net>=0?'سود':'زیان'}</div><b class="${net<0?'late':'ok'}">${fmt(Math.abs(net))} ت</b></div>${b?`<div><div class="mut">بودجه</div><b class="${r.out>b?'late':''}">${fa(Math.round(r.out/b*100))}٪ مصرف شده</b></div>`:''}</div>`},
+ gh(id){const g=D.goal.find(x=>x.id===id);if(!g)return'';const od=g.st==='active'&&g.due&&g.due<today();return `<b>${fa(gprog(g))}٪</b>${g.due?`<span class="mut${od?' late':''}">موعد ${jd(g.due)}</span>`:''}`},
+ gbar(id){const g=D.goal.find(x=>x.id===id);return g?bar(gprog(g)):''},
+ wt(){const S7=new Set(lastDays(7)),w7=D.work.filter(w=>S7.has(w.d)),S30=new Set(lastDays(30)),n30=D.work.filter(w=>S30.has(w.d)).length,l14=lastDays(14),by=d=>sum(D.work.filter(w=>w.d===d),'min'),mx=Math.max(1,...l14.map(by));
+  return tile('دقیقهٔ ورزش در ۷ روز اخیر',fa(sum(w7,'min')))+tile('روزهای فعال در هفته',fa(new Set(w7.map(w=>w.d)).size)+' از ۷')+tile('جلسه در ۳۰ روز اخیر',fa(n30))+`<div class="pn" style="grid-column:1/-1"><div class="mut">دقیقهٔ ورزش در ۱۴ روز اخیر</div><div class="spark">${l14.map(d=>`<div title="${jd(d)}"><i style="height:${Math.round(by(d)/mx*60)}px"></i><span>${fa(+d.slice(8))}</span></div>`).join('')}</div></div>`},
+ rd(){const S7=new Set(lastDays(7)),t0=today(),yr=t0.slice(0,4);return tile('صفحهٔ امروز',fa(sum(D.rlog.filter(r=>r.d===t0),'pages')))+tile('صفحه در ۷ روز اخیر',fa(sum(D.rlog.filter(r=>S7.has(r.d)),'pages')),fa(Math.round(sum(D.rlog.filter(r=>S7.has(r.d)),'min')))+' دقیقه')+tile('در حال مطالعه',fa(D.book.filter(b=>b.st==='reading').length)+' کتاب')+tile('کتاب تمام‌شده امسال',fa(D.book.filter(b=>b.st==='done'&&(b.doneAt||'').startsWith(yr)).length))},
+ bk(id){const b=D.book.find(x=>x.id===id);if(!b)return'';const pg=num(b.pages),pc=pg?Math.round(num(b.cur)/pg*100):0;return `<span class="mut">${pg?fa(Math.min(100,pc))+'٪ ('+fa(num(b.cur))+' از '+fa(pg)+' صفحه)':fa(num(b.cur))+' صفحه خوانده شده'}</span>`},
+ bbar(id){const b=D.book.find(x=>x.id===id);if(!b)return'';const pg=num(b.pages);return bar(pg?num(b.cur)/pg*100:0)},
+ sk(id){const s=D.skill.find(x=>x.id===id);if(!s)return'';return `<span class="mut">سطح ${fa(num(s.level))}٪ از هدف ${fa(num(s.target)||100)}٪</span><span class="mut">${fh(sum(D.sprac.filter(p=>p.sid===id),'min'))} ساعت تمرین</span>`},
+ sbar(id){const s=D.skill.find(x=>x.id===id);return s?bar(num(s.level)/(num(s.target)||100)*100):''}
+};
+function refreshSums(){$$('[data-sum]').forEach(el=>{const f=SUMS[el.dataset.sum];if(f)el.innerHTML=f(el.dataset.arg||'')})}
+
+/* ================= وضعیت نمایش ================= */
+let V='today',GT='habit',FM=ymNow(),FA=false,F={};const open=new Set();
+
+/* ================= امروز ================= */
+function vToday(){
+ const t0=today(),wd=new Date().toLocaleDateString('fa-IR',{weekday:'long'}),ym=ymStr(ymNow());
+ const ot=D.task.filter(t=>t.st!=='done'&&((t.due&&t.due<=t0)||t.st==='doing')).sort(cmpTask),dnT=D.task.filter(t=>t.st==='done'&&t.doneAt===t0);
+ const habs=D.habit.filter(h=>!h.arch),hd=habs.filter(h=>h.log.includes(t0));
+ const total=ot.length+dnT.length+habs.length,done=dnT.length+hd.length,pc=total?Math.round(done/total*100):0;
+ const fc=finCalc(x=>(x.d||'').startsWith(ym)),net=fc.inc-fc.out;
+ const S7=new Set(lastDays(7)),w7=D.work.filter(w=>S7.has(w.d)),rp=sum(D.rlog.filter(r=>S7.has(r.d)),'pages');
+ const allOpen=D.task.filter(t=>t.st!=='done'),lateN=allOpen.filter(t=>t.due&&t.due<t0).length;
+ const j=D.jour.find(x=>x.d===t0),goals=D.goal.filter(g=>g.st==='active').sort((a,b)=>(a.due||'9').localeCompare(b.due||'9')).slice(0,5),rs=openRes().slice(0,5);
+ return `<section class="hero"><div><h1 class="h1">${jd(t0)}</h1><div class="mut">${wd}</div></div><div class="hp"><div class="mut">${total?'پیشرفت امروز: '+fa(done)+' از '+fa(total)+' مورد':'برای امروز هنوز کاری یا عادتی تعریف نشده است'}</div>${bar(pc)}</div></section>
+ <div class="grid g4">${tile('خالص این ماه',fmt(net)+' ت','درآمد '+fmt(fc.inc)+' / هزینه '+fmt(fc.out),'fin',net<0?'neg':'pos')}${tile('ورزش ۷ روز اخیر',fa(sum(w7,'min'))+' دقیقه',fa(w7.length)+' جلسه','grow')}${tile('مطالعهٔ ۷ روز اخیر',fa(rp)+' صفحه','','grow')}${tile('تسک‌های باز',fa(allOpen.length),lateN?fa(lateN)+' عقب‌افتاده':'','task',lateN?'neg':'')}</div>
+ <div class="grid g2 mt"><div class="pn"><div class="h2">کارهای امروز</div>
+  <div class="fl"><input class="in f2" id="qt-t" data-enter="qtask" placeholder="کار تازه برای امروز…" aria-label="عنوان کار"><select class="in" id="qt-a" aria-label="حوزه" style="flex:0 1 110px">${optS(AREA,'personal')}</select><button class="btn pri" data-act="qtask">افزودن</button></div>
+  ${ot.length||dnT.length?[...ot,...dnT].map(t=>`<div class="row p-${t.prio||'mid'}${t.st==='done'?' done':''}">${chk('task',t.id,'chk',t.st==='done','انجام شد: '+(t.t||''))}<div><span class="tt">${esc(t.t)}</span> ${badge(AREA[t.area])} ${t.pid?badge(pname(t.pid)):''}${t.st!=='done'&&t.due&&t.due<t0?' <span class="late">عقب‌افتاده</span>':''}</div></div>`).join(''):empty('کاری برای امروز نیست. یکی بنویسید یا به بخش تسک‌ها بروید.')}</div>
+ <div class="pn"><div class="h2">عادت‌های امروز</div>${habs.length?habs.map(h=>`<label class="row" style="cursor:pointer"><input type="checkbox" data-act="htoggle" data-i="${h.id}" aria-label="${esc(h.name)}"${h.log.includes(t0)?' checked':''}><div>${esc(h.name)} <span class="mut">${fa(streak(h))} روز پیاپی</span></div></label>`).join(''):empty('هنوز عادتی تعریف نشده است. از «رشد فردی» شروع کنید.')}
+  <div class="h2 mt">امروز چطور بود؟</div><div class="moods">${[1,2,3,4,5].map(n=>`<button class="mood" data-act="jmood" data-v="${n}" data-d="${t0}" aria-pressed="${j&&j.mood===n}"><span aria-hidden="true">${EMO[n-1]}</span>${MOOD[n]}</button>`).join('')}</div></div></div>
+ <div class="grid g2"><div class="pn"><div class="h2">اهداف فعال</div>${goals.length?goals.map(g=>`<div style="margin-bottom:10px"><div class="fl"><b class="f1">${esc(g.t)}</b><span class="mut">${fa(gprog(g))}٪</span></div>${bar(gprog(g))}</div>`).join(''):empty('هدف فعالی ندارید.')}</div>
+ <div class="pn"><div class="h2">مصوبات باز جلسات تفکر</div>${rs.length?rs.map(({s,r})=>`<div class="row"><span></span><div><div>${esc(r.t)}</div><div class="mut">${esc(s.t)}${r.due?' - مهلت '+jd(r.due):''}${r.due&&r.due<t0?' <span class="late">(عقب‌افتاده)</span>':''}</div></div></div>`).join(''):empty('مصوبهٔ بازی نیست.')}</div></div>`}
+
+/* ================= تسک‌ها ================= */
+function taskRow(t,o={}){
+ const L=t.st!=='done'&&t.due&&t.due<today();
+ return `<div class="row p-${t.prio||'mid'}${t.st==='done'?' done':''}">${chk('task',t.id,'chk',t.st==='done','انجام شد')}<div class="rb">${inp('task',t.id,'t',t.t,{cls:'tt',a:'عنوان تسک'})}
+ <div class="fl">${sel('task',t.id,'area',AREA,t.area,{a:'حوزه'})}${o.noProj?'':sel('task',t.id,'pid',pMap(),t.pid,{blank:'بدون پروژه',a:'پروژه'})}${dt('task',t.id,'due',t.due,{late:L,a:'موعد'})}${sel('task',t.id,'prio',PR,t.prio,{a:'اولویت'})}${sel('task',t.id,'st',TS,t.st,{a:'وضعیت'})}${delB('task',t.id)}</div>
+ <details class="mini" data-oid="td-${t.id}"><summary>توضیحات${t.desc?' ✎':''}</summary>${ta('task',t.id,'desc',t.desc,{r:2,a:'توضیحات تسک'})}</details></div></div>`}
+function vTasks(){
+ const st=F.st||'open',ar=F.ar||'',pj=F.pj||'',q=(F.q||'').toLowerCase();
+ const L=D.task.filter(t=>(st==='all'||(st==='open'?t.st!=='done':t.st==='done'))&&(!ar||t.area===ar)&&(!pj||t.pid===pj)&&(!q||((t.t||'')+(t.desc||'')).toLowerCase().includes(q))).sort(cmpTask);
+ return `<h1 class="h1">تسک‌ها</h1>
+ <div class="pn"><div class="fl"><input class="in f2" id="nt-t" data-enter="addtask" placeholder="عنوان تسک جدید" aria-label="عنوان تسک"><select class="in" id="nt-a" aria-label="حوزه">${optS(AREA,'work')}</select><select class="in" id="nt-p" aria-label="پروژه">${optS(pMap(),'','بدون پروژه')}</select>${addDate('nt-d','')}<select class="in" id="nt-r" aria-label="اولویت">${optS(PR,'mid')}</select><button class="btn pri" data-act="addtask">افزودن تسک</button></div></div>
+ ${chips('st',[['open','باز'],['done','انجام‌شده'],['all','همه']],st)}
+ <div class="fl" style="margin-bottom:8px"><input class="in f2" id="fq" data-f="q" value="${esc(F.q||'')}" placeholder="جستجو در تسک‌ها" aria-label="جستجو"><select class="in" data-f="ar" aria-label="فیلتر حوزه">${optS(AREA,ar,'همهٔ حوزه‌ها')}</select><select class="in" data-f="pj" aria-label="فیلتر پروژه">${optS(pMap(),pj,'همهٔ پروژه‌ها')}</select></div>
+ <div class="pn">${L.length?L.map(t=>taskRow(t)).join(''):empty(D.task.length?'تسکی با این فیلتر پیدا نشد.':'هنوز تسکی ندارید. اولین کار شخصی یا کاری‌تان را بالا بنویسید.')}</div>`}
+
+/* ================= پروژه‌ها ================= */
+function projCard(p){
+ const T=D.task.filter(t=>t.pid===p.id).sort(cmpTask),u=urlOf(p.link),H=histOf('proj',p.id),ms=D.sess.filter(s=>!s.items.some(i=>i.kind==='proj'&&i.ref===p.id));
+ return `<details class="pn" data-oid="p-${p.id}"><summary>${badge(PS[p.status])}<b class="f1">${esc(p.name||'(بدون نام)')}</b>${sumBox('psh',p.id,'span','fl')}</summary>
+ <div class="grid g3">${fld('نام پروژه',inp('proj',p.id,'name',p.name,{a:'نام پروژه'}))}${fld('وضعیت',sel('proj',p.id,'status',PS,p.status,{a:'وضعیت'}))}${fld('اولویت',sel('proj',p.id,'prio',PR,p.prio,{a:'اولویت'}))}${fld('شروع',dt('proj',p.id,'start',p.start,{a:'تاریخ شروع'}))}${fld('موعد پایان',dt('proj',p.id,'due',p.due,{a:'موعد پایان'}))}${fld('بودجه (تومان)',inp('proj',p.id,'budget',p.budget,{t:'n',a:'بودجه'}))}</div>
+ <div class="fl mt"><div class="f2">${fld('لینک پروژه',inp('proj',p.id,'link',p.link,{a:'لینک پروژه',ph:'https://…'}))}</div>${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener noreferrer">باز کردن لینک</a>`:''}</div>
+ ${fld('توضیحات',ta('proj',p.id,'desc',p.desc,{a:'توضیحات پروژه'}),'mt')}
+ <div class="pn2">${sumBox('pst',p.id,'div')}</div>
+ <div class="h2 mt">تسک‌های پروژه</div>
+ <div class="fl rf"><input class="in f2 rt" placeholder="تسک تازه برای این پروژه" aria-label="عنوان تسک"><input class="in rd" dir="ltr" style="flex:0 1 135px" placeholder="موعد 1405/01/01" aria-label="موعد"><button class="btn" data-act="ptask" data-i="${p.id}">افزودن تسک</button></div>
+ ${T.length?T.map(t=>taskRow(t,{noProj:1})).join(''):'<div class="mut">تسکی برای این پروژه ثبت نشده است.</div>'}
+ <div class="h2 mt">ثبت سریع مالی پروژه</div>
+ <div class="fl rf"><select class="in rty" aria-label="نوع">${optS(TT,'out')}</select><input class="in f2 rt" placeholder="شرح" aria-label="شرح"><input class="in ra" style="flex:1 1 110px" inputmode="decimal" placeholder="مبلغ (تومان)" aria-label="مبلغ"><button class="btn" data-act="ptx" data-i="${p.id}">ثبت</button></div>
+ <div class="h2 mt">بررسی در جلسات تفکر</div>
+ <select class="in" data-sel="refer" data-kind="proj" data-i="${p.id}" aria-label="ارجاع به جلسه"><option value="">${D.sess.length?'ارجاع به یک جلسهٔ تفکر…':'ابتدا یک جلسهٔ تفکر بسازید'}</option>${ms.map(s=>`<option value="${s.id}">${esc(s.t)} (${jd(s.d)})</option>`).join('')}</select>
+ ${H.map(h=>`<div class="fl mut"><span>${jd(h.s.d)}</span><span class="f1">${esc(h.s.t)}</span>${badge(VD[h.it.verdict])}<button class="btn sm" data-act="gosess" data-i="${h.s.id}">رفتن به جلسه</button></div>`).join('')}
+ <div class="mt">${delB('proj',p.id,'','حذف پروژه')}</div></details>`}
+function vProjects(){
+ const q=(F.q||'').toLowerCase(),fs=F.ps||'';
+ const L=D.proj.filter(p=>(!fs||p.status===fs)&&(!q||(p.name||'').toLowerCase().includes(q)));
+ return `<h1 class="h1">پروژه‌ها</h1>
+ <div class="pn"><div class="fl"><input class="in f2" id="np-n" data-enter="addproj" placeholder="نام پروژهٔ جدید" aria-label="نام پروژه"><button class="btn pri" data-act="addproj">افزودن پروژه</button></div></div>
+ <div class="fl" style="margin-bottom:8px"><input class="in f2" id="fq" data-f="q" value="${esc(F.q||'')}" placeholder="جستجو در پروژه‌ها" aria-label="جستجو"><select class="in" data-f="ps" aria-label="فیلتر وضعیت">${optS(PS,fs,'همهٔ وضعیت‌ها')}</select></div>
+ ${L.length?L.map(projCard).join(''):empty(D.proj.length?'پروژه‌ای با این فیلتر پیدا نشد.':'هنوز پروژه‌ای ندارید. یک پروژه بسازید تا تسک‌ها و هزینه‌هایش را کنار هم ببینید.')}`}
+
+/* ================= مالی ================= */
+function vFin(){
+ const pm=x=>FA||(x.d||'').startsWith(ymStr(FM)),q=(F.q||'').toLowerCase(),ty=F.ty||'',cur=ymNow();
+ const L=D.tx.filter(x=>pm(x)&&(!ty||x.type===ty)&&(!q||((x.t||'')+(x.cat||'')).toLowerCase().includes(q))).sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,300);
+ const cats=[...new Set([...CATS_OUT,...CATS_IN,...D.tx.map(x=>x.cat).filter(Boolean)])],dd=(FM.y===cur.y&&FM.m===cur.m)?today():ymStr(FM)+'/01';
+ const bcats=[...new Set([...CATS_OUT,...D.tx.filter(x=>x.type!=='in').map(x=>x.cat).filter(Boolean),...Object.keys(D.set.budgets)])];
+ return `<datalist id="dl-cat">${cats.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>
+ <h1 class="h1">مالی</h1>
+ <div class="fl" style="margin-bottom:10px"><button class="btn" data-act="finm" data-n="-1"${FA?' disabled':''}>ماه قبل</button><b style="min-width:110px;text-align:center">${FA?'همهٔ زمان‌ها':ymLabel(FM)}</b><button class="btn" data-act="finm" data-n="1"${FA?' disabled':''}>ماه بعد</button><button class="chip" data-act="finall" aria-pressed="${FA}">نمایش همه</button></div>
+ ${sumBox('fin','','div')}
+ <div class="pn mt"><div class="h2">ثبت درآمد یا هزینه</div><div class="fl"><select class="in" id="nx-y" aria-label="نوع">${optS(TT,'out')}</select><input class="in f2" id="nx-t" data-enter="addtx" placeholder="شرح (مثلاً: اجارهٔ دفتر)" aria-label="شرح"><input class="in" id="nx-c" list="dl-cat" style="flex:1 1 120px" placeholder="دسته" aria-label="دسته"><input class="in" id="nx-a" data-enter="addtx" style="flex:1 1 120px" inputmode="decimal" placeholder="مبلغ (تومان)" aria-label="مبلغ">${addDate('nx-d',dd)}<select class="in" id="nx-p" aria-label="پروژه">${optS(pMap(),'','بدون پروژه')}</select><button class="btn pri" data-act="addtx">ثبت</button></div></div>
+ ${chips('ty',[['','همه'],['out','هزینه‌ها'],['in','درآمدها']],ty)}
+ <div class="fl" style="margin-bottom:8px"><input class="in f2" id="fq" data-f="q" value="${esc(F.q||'')}" placeholder="جستجو در شرح و دسته" aria-label="جستجو"></div>
+ <div class="pn">${L.length?L.map(x=>`<div class="row tx-${x.type==='in'?'in':'out'}"><span></span><div class="rb"><div class="fl">${sel('tx',x.id,'type',TT,x.type,{a:'نوع'})}<div class="f2">${inp('tx',x.id,'t',x.t,{a:'شرح',ph:'شرح'})}</div><div class="f1">${inp('tx',x.id,'cat',x.cat,{l:'dl-cat',a:'دسته',ph:'دسته'})}</div><div class="f1">${inp('tx',x.id,'amt',x.amt,{t:'n',a:'مبلغ'})}</div>${dt('tx',x.id,'d',x.d,{a:'تاریخ'})}${sel('tx',x.id,'pid',pMap(),x.pid,{blank:'بدون پروژه',a:'پروژه'})}${delB('tx',x.id)}</div></div></div>`).join(''):empty('تراکنشی در این بازه ثبت نشده است.')}</div>
+ <details class="pn" data-oid="fin-bud"><summary><b>سقف ماهانهٔ هزینه برای هر دسته</b></summary><div class="mut">با تعیین سقف، در بخش «هزینه به تفکیک دسته» پیشرفت مصرف را می‌بینید. مبلغ صفر یعنی بدون سقف.</div>
+ <div class="grid g3 mt">${bcats.map(c=>fld(esc(c),`<input class="in" data-bud="${esc(c)}" inputmode="decimal" value="${vN(D.set.budgets[c])}" aria-label="سقف ${esc(c)}">`)).join('')}</div></details>`}
+
+/* ================= خریدها ================= */
+function vBuy(){
+ const st=F.bs||'open',L=D.buy.filter(b=>st==='all'||(st==='open'?(b.st==='want'||b.st==='plan'):b.st===st)).sort((a,b)=>(PW[a.prio]??1)-(PW[b.prio]??1));
+ return `<h1 class="h1">خریدها</h1>
+ <div class="grid g3" data-sum="buy" data-arg="">${SUMS.buy()}</div>
+ <div class="pn mt"><div class="fl"><input class="in f2" id="nb-t" data-enter="addbuy" placeholder="چه چیزی می‌خواهید بخرید؟" aria-label="عنوان"><input class="in" id="nb-p" style="flex:1 1 120px" inputmode="decimal" placeholder="قیمت تقریبی (تومان)" aria-label="قیمت"><select class="in" id="nb-k" aria-label="نوع">${optS(BKIND,'want')}</select><select class="in" id="nb-r" aria-label="اولویت">${optS(PR,'mid')}</select><button class="btn pri" data-act="addbuy">افزودن به فهرست</button></div></div>
+ ${chips('bs',[['open','در انتظار خرید'],['bought','خریده‌شده'],['drop','منصرف شدم'],['all','همه']],st)}
+ <div class="pn">${L.length?L.map(b=>{const u=urlOf(b.link);return `<div class="row p-${b.prio||'mid'}${b.st==='bought'?' done':''}"><span></span><div class="rb">${inp('buy',b.id,'t',b.t,{cls:'tt',a:'عنوان'})}
+ <div class="fl"><div class="f1">${inp('buy',b.id,'price',b.price,{t:'n',a:'قیمت (تومان)',ph:'قیمت'})}</div>${sel('buy',b.id,'kind',BKIND,b.kind,{a:'نوع'})}${sel('buy',b.id,'prio',PR,b.prio,{a:'اولویت'})}${sel('buy',b.id,'st',BST,b.st,{a:'وضعیت'})}${b.st==='bought'?`<span class="mut">${jd(b.d)}</span>`:`<button class="btn sm pri" data-act="bought" data-i="${b.id}">خریدم</button>`}${delB('buy',b.id)}</div>
+ <div class="fl"><div class="f2">${inp('buy',b.id,'link',b.link,{a:'لینک',ph:'لینک محصول (اختیاری)'})}</div>${u?`<a class="btn sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">باز کردن</a>`:''}<div class="f2">${inp('buy',b.id,'note',b.note,{a:'یادداشت',ph:'یادداشت'})}</div></div></div></div>`}).join(''):empty('فهرست خالی است. هر چیزی که می‌خواهید بخرید را اینجا بنویسید؛ وقتی خریدید، «خریدم» را بزنید تا به‌عنوان هزینه ثبت شود.')}</div>`}
+
+/* ================= اهداف ================= */
+function goalCard(g){
+ const H=histOf('goal',g.id),ms=D.sess.filter(s=>!s.items.some(i=>i.kind==='goal'&&i.ref===g.id));
+ return `<details class="pn" data-oid="g-${g.id}"><summary>${badge(GCAT[g.cat])}${badge(GH[g.hz])}<b class="f1">${esc(g.t||'(بدون عنوان)')}</b>${badge(GST[g.st])}${sumBox('gh',g.id,'span','fl')}</summary>
+ ${sumBox('gbar',g.id,'div')}
+ <div class="grid g3 mt">${fld('عنوان هدف',inp('goal',g.id,'t',g.t,{a:'عنوان هدف'}))}${fld('دسته',sel('goal',g.id,'cat',GCAT,g.cat,{a:'دسته'}))}${fld('افق زمانی',sel('goal',g.id,'hz',GH,g.hz,{a:'افق زمانی'}))}${fld('موعد',dt('goal',g.id,'due',g.due,{a:'موعد'}))}${fld('وضعیت',sel('goal',g.id,'st',GST,g.st,{a:'وضعیت'}))}${fld('پروژهٔ مرتبط',sel('goal',g.id,'pid',pMap(),g.pid,{blank:'بدون پروژه',a:'پروژه'}))}${g.kr.length?fld('پیشرفت','<div class="mut">از روی گام‌ها حساب می‌شود</div>'):fld('پیشرفت (٪)',inp('goal',g.id,'prog',g.prog,{t:'p',a:'پیشرفت درصد'}))}</div>
+ ${fld('معیار موفقیت (چطور بفهمم رسیدم؟)',inp('goal',g.id,'kpi',g.kpi,{a:'معیار موفقیت'}),'mt')}${fld('توضیحات',ta('goal',g.id,'desc',g.desc,{a:'توضیحات هدف'}),'mt')}
+ <div class="h2 mt">گام‌ها و نتایج کلیدی</div>
+ <div class="fl rf"><input class="in f2 rt" data-enter-kr="${g.id}" placeholder="گام یا نتیجهٔ کلیدی تازه" aria-label="گام"><button class="btn" data-act="kradd" data-i="${g.id}">افزودن گام</button></div>
+ ${g.kr.map(k=>`<div class="row"><span>${chk('kr',k.id,'done',k.done,'انجام شد',{p:g.id})}</span><div class="fl"><div class="f1${k.done?' done':''}">${inp('kr',k.id,'t',k.t,{p:g.id,cls:'tt',a:'گام'})}</div>${delB('kr',k.id,g.id)}</div></div>`).join('')}
+ <div class="h2 mt">بررسی در جلسات تفکر</div>
+ <select class="in" data-sel="refer" data-kind="goal" data-i="${g.id}" aria-label="ارجاع به جلسه"><option value="">${D.sess.length?'ارجاع به یک جلسهٔ تفکر…':'ابتدا یک جلسهٔ تفکر بسازید'}</option>${ms.map(s=>`<option value="${s.id}">${esc(s.t)} (${jd(s.d)})</option>`).join('')}</select>
+ ${H.map(h=>`<div class="fl mut"><span>${jd(h.s.d)}</span><span class="f1">${esc(h.s.t)}</span>${badge(VD[h.it.verdict])}<button class="btn sm" data-act="gosess" data-i="${h.s.id}">رفتن به جلسه</button></div>`).join('')}
+ <div class="mt">${delB('goal',g.id,'','حذف هدف')}</div></details>`}
+function vGoals(){
+ const gs=F.gs||'',gc=F.gc||'',q=(F.q||'').toLowerCase(),ho={short:0,mid:1,long:2};
+ const L=D.goal.filter(g=>(!gs||g.st===gs)&&(!gc||g.cat===gc)&&(!q||((g.t||'')+(g.desc||'')+(g.kpi||'')).toLowerCase().includes(q))).sort((a,b)=>((a.st!=='active')-(b.st!=='active'))||(ho[a.hz]??1)-(ho[b.hz]??1)||(a.due||'9').localeCompare(b.due||'9'));
+ const act=D.goal.filter(g=>g.st==='active'),avg=act.length?Math.round(act.reduce((s,g)=>s+gprog(g),0)/act.length):0;
+ return `<h1 class="h1">اهداف</h1><div class="mut" style="margin-bottom:8px">${fa(D.goal.length)} هدف، ${fa(act.length)} فعال، میانگین پیشرفت اهداف فعال ${fa(avg)}٪</div>
+ <div class="pn"><div class="fl"><input class="in f2" id="ng-t" data-enter="addgoal" placeholder="هدف تازه (مثلاً: ۱۲ کتاب تا پایان سال)" aria-label="عنوان هدف"><select class="in" id="ng-c" aria-label="دسته">${optS(GCAT,'personal')}</select><select class="in" id="ng-h" aria-label="افق زمانی">${optS(GH,'mid')}</select>${addDate('ng-d','')}<button class="btn pri" data-act="addgoal">افزودن هدف</button></div></div>
+ <div class="fl" style="margin-bottom:8px"><input class="in f2" id="fq" data-f="q" value="${esc(F.q||'')}" placeholder="جستجو" aria-label="جستجو"><select class="in" data-f="gs" aria-label="فیلتر وضعیت">${optS(GST,gs,'همهٔ وضعیت‌ها')}</select><select class="in" data-f="gc" aria-label="فیلتر دسته">${optS(GCAT,gc,'همهٔ دسته‌ها')}</select></div>
+ ${L.length?L.map(goalCard).join(''):empty(D.goal.length?'هدفی با این فیلتر پیدا نشد.':'هنوز هدفی ثبت نشده است. یک هدف مشخص با موعد بنویسید و آن را به گام‌های کوچک بشکنید.')}`}
+
+/* ================= ایده‌ها ================= */
+function ideaCard(e){
+ const H=histOf('idea',e.id),ms=D.sess.filter(s=>!s.items.some(i=>i.kind==='idea'&&i.ref===e.id));
+ return `<details class="pn" data-oid="i-${e.id}"><summary>${badge(IT[e.type])}<b class="f1">${esc(e.t||'(بدون عنوان)')}</b>${badge(IST[e.st])}${e.pid&&pname(e.pid)?badge(pname(e.pid)):''}</summary>
+ <div class="grid g3">${fld('عنوان',inp('idea',e.id,'t',e.t,{a:'عنوان'}))}${fld('نوع',sel('idea',e.id,'type',IT,e.type,{a:'نوع'}))}${fld('وضعیت',sel('idea',e.id,'st',IST,e.st,{a:'وضعیت'}))}${fld('اولویت',sel('idea',e.id,'prio',PR,e.prio,{a:'اولویت'}))}${fld('پروژهٔ مرتبط',sel('idea',e.id,'pid',pMap(),e.pid,{blank:'بدون پروژه',a:'پروژه'}))}${fld('پیشرفت اجرا (٪)',inp('idea',e.id,'prog',e.prog,{t:'p',a:'پیشرفت'}))}</div>
+ ${fld('توضیحات و جزئیات',ta('idea',e.id,'desc',e.desc,{r:4,a:'توضیحات'}),'mt')}
+ <div class="h2 mt">پیگیری</div>
+ <div class="fl rf"><input class="in f2 rt" placeholder="اقدام انجام‌شده یا نکتهٔ تازه" aria-label="پیگیری"><input class="in rd" dir="ltr" style="flex:0 1 135px" value="${today()}" aria-label="تاریخ"><button class="btn" data-act="logadd" data-i="${e.id}">ثبت</button></div>
+ ${[...e.log].reverse().map(l=>`<div class="fl row2"><span class="mut">${jd(l.d)}</span><span class="f1">${esc(l.txt)}</span>${delB('log',l.id,e.id,'✕')}</div>`).join('')||'<div class="mut">هنوز پیگیری ثبت نشده است.</div>'}
+ <div class="h2 mt">بررسی در جلسات تفکر</div>
+ <select class="in" data-sel="refer" data-kind="idea" data-i="${e.id}" aria-label="ارجاع به جلسه"><option value="">${D.sess.length?'ارجاع به یک جلسهٔ تفکر…':'ابتدا یک جلسهٔ تفکر بسازید'}</option>${ms.map(s=>`<option value="${s.id}">${esc(s.t)} (${jd(s.d)})</option>`).join('')}</select>
+ ${H.map(h=>`<div class="fl mut"><span>${jd(h.s.d)}</span><span class="f1">${esc(h.s.t)}</span>${badge(VD[h.it.verdict])}<button class="btn sm" data-act="gosess" data-i="${h.s.id}">رفتن به جلسه</button></div>`).join('')}
+ <div class="mt">${delB('idea',e.id,'','حذف')}</div></details>`}
+function vIdeas(){
+ const is=F.is||'',it=F.it||'',q=(F.q||'').toLowerCase(),c=k=>D.idea.filter(e=>e.st===k).length;
+ const L=D.idea.filter(e=>(!is||e.st===is)&&(!it||e.type===it)&&(!q||((e.t||'')+(e.desc||'')).toLowerCase().includes(q)));
+ return `<h1 class="h1">ایده‌ها و طرح‌ها</h1><div class="mut" style="margin-bottom:8px">${fa(D.idea.length)} مورد، جدید ${fa(c('new'))}، در بررسی ${fa(c('review'))}، تصویب‌شده ${fa(c('approved'))}، در حال اجرا ${fa(c('doing'))}، انجام‌شده ${fa(c('done'))}</div>
+ <div class="pn"><div class="fl"><input class="in f2" id="ni-t" data-enter="addidea" placeholder="ایده یا طرح تازه" aria-label="عنوان"><select class="in" id="ni-y" aria-label="نوع">${optS(IT,'idea')}</select><select class="in" id="ni-r" aria-label="اولویت">${optS(PR,'mid')}</select><select class="in" id="ni-p" aria-label="پروژه">${optS(pMap(),'','بدون پروژه')}</select><button class="btn pri" data-act="addidea">ثبت</button></div></div>
+ <div class="fl" style="margin-bottom:8px"><input class="in f2" id="fq" data-f="q" value="${esc(F.q||'')}" placeholder="جستجو" aria-label="جستجو"><select class="in" data-f="is" aria-label="فیلتر وضعیت">${optS(IST,is,'همهٔ وضعیت‌ها')}</select><select class="in" data-f="it" aria-label="فیلتر نوع">${optS(IT,it,'ایده و طرح')}</select></div>
+ ${L.length?L.map(ideaCard).join(''):empty(D.idea.length?'موردی با این فیلتر پیدا نشد.':'ایده‌هایتان را همین‌جا بنویسید تا گم نشوند؛ بعد در جلسهٔ تفکر دربارهٔ‌شان تصمیم بگیرید.')}`}
+
+/* ================= رشد فردی ================= */
+function habRow(h){
+ const t0=today(),S=new Set(h.log),days=lastDays(14),r30=Math.round(lastDays(30).filter(d=>S.has(d)).length/30*100);
+ return `<div class="pn"><div class="fl"><div class="f2">${inp('habit',h.id,'name',h.name,{a:'نام عادت'})}</div><span class="badge">${fa(streak(h))} روز پیاپی</span><span class="mut">${fa(r30)}٪ از ۳۰ روز اخیر</span><button class="btn sm" data-act="harch" data-i="${h.id}">بایگانی</button>${delB('habit',h.id)}</div>
+ <div class="dots" role="group" aria-label="۱۴ روز اخیر">${days.map(d=>`<button class="dot${d===t0?' t':''}" data-act="hdot" data-i="${h.id}" data-d="${d}" aria-pressed="${S.has(d)}" aria-label="${jd(d)}">${fa(+d.slice(8))}</button>`).join('')}</div></div>`}
+function gHabit(){
+ const act=D.habit.filter(h=>!h.arch),ar=D.habit.filter(h=>h.arch);
+ return `<div class="pn"><div class="fl"><input class="in f2" id="nh-n" data-enter="hadd" placeholder="عادت تازه (مثلاً: ۳۰ دقیقه مطالعه)" aria-label="نام عادت"><button class="btn pri" data-act="hadd">افزودن عادت</button></div></div>
+ ${act.length?act.map(habRow).join(''):empty('هنوز عادتی تعریف نکرده‌اید. یک عادت کوچک و مشخص بنویسید و هر روز با یک ضربه ثبتش کنید.')}
+ ${ar.length?`<details class="pn" data-oid="h-ar"><summary>عادت‌های بایگانی‌شده (${fa(ar.length)})</summary>${ar.map(h=>`<div class="fl row2"><span class="f1">${esc(h.name)}</span><button class="btn sm" data-act="harch" data-i="${h.id}">بازگردانی</button>${delB('habit',h.id)}</div>`).join('')}</details>`:''}`}
+function gWork(){
+ const L=[...D.work].sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,60);
+ return `<datalist id="dl-wt">${WTYPES.map(x=>`<option value="${x}">`).join('')}</datalist>
+ <div class="grid g3" data-sum="wt" data-arg="">${SUMS.wt()}</div>
+ <div class="pn mt"><div class="h2">ثبت تمرین</div><div class="fl">${addDate('nw-d',today())}<input class="in f1" id="nw-t" list="dl-wt" placeholder="نوع ورزش" aria-label="نوع ورزش"><input class="in" id="nw-m" data-enter="wadd" style="flex:0 1 110px" inputmode="numeric" placeholder="دقیقه" aria-label="دقیقه"><select class="in" id="nw-i" aria-label="شدت">${optS(INT,'2')}</select><input class="in f2" id="nw-n" data-enter="wadd" placeholder="یادداشت (اختیاری)" aria-label="یادداشت"><button class="btn pri" data-act="wadd">ثبت</button></div></div>
+ <div class="pn">${L.length?L.map(w=>`<div class="row"><span></span><div class="fl">${dt('work',w.id,'d',w.d,{a:'تاریخ'})}<div class="f1">${inp('work',w.id,'type',w.type,{l:'dl-wt',a:'نوع ورزش',ph:'نوع'})}</div><div style="flex:0 1 100px">${inp('work',w.id,'min',w.min,{t:'n',a:'دقیقه',ph:'دقیقه'})}</div>${sel('work',w.id,'int',INT,String(w.int||2),{a:'شدت'})}<div class="f2">${inp('work',w.id,'note',w.note,{a:'یادداشت',ph:'یادداشت'})}</div>${delB('work',w.id)}</div></div>`).join(''):empty('هنوز تمرینی ثبت نشده است.')}</div>`}
+function bookCard(b){
+ const logs=D.rlog.filter(r=>r.bid===b.id).sort((a,c)=>(c.d||'').localeCompare(a.d||'')).slice(0,6);
+ return `<details class="pn" data-oid="b-${b.id}"><summary>${badge(BKS[b.st])}<b class="f1">${esc(b.t||'(بدون عنوان)')}</b>${b.author?`<span class="mut">${esc(b.author)}</span>`:''}${sumBox('bk',b.id,'span')}</summary>
+ ${sumBox('bbar',b.id,'div')}
+ <div class="grid g3 mt">${fld('عنوان',inp('book',b.id,'t',b.t,{a:'عنوان کتاب'}))}${fld('نویسنده',inp('book',b.id,'author',b.author,{a:'نویسنده'}))}${fld('وضعیت',sel('book',b.id,'st',BKS,b.st,{a:'وضعیت'}))}${fld('تعداد صفحه',inp('book',b.id,'pages',b.pages,{t:'n',a:'تعداد صفحه'}))}${fld('صفحهٔ فعلی',inp('book',b.id,'cur',b.cur,{t:'n',a:'صفحهٔ فعلی'}))}${fld('امتیاز',sel('book',b.id,'rate',{1:'۱',2:'۲',3:'۳',4:'۴',5:'۵'},String(b.rate||''),{blank:'بدون امتیاز',a:'امتیاز'}))}</div>
+ ${fld('نکته‌ها و برداشت‌ها',ta('book',b.id,'note',b.note,{r:4,a:'نکته‌های کتاب'}),'mt')}
+ <div class="h2 mt">ثبت مطالعه</div>
+ <div class="fl rf"><input class="in rd" dir="ltr" style="flex:0 1 135px" value="${today()}" aria-label="تاریخ"><input class="in rp" style="flex:0 1 110px" inputmode="numeric" placeholder="صفحه" aria-label="تعداد صفحه"><input class="in rm" style="flex:0 1 110px" inputmode="numeric" placeholder="دقیقه" aria-label="دقیقه"><button class="btn" data-act="rlogadd" data-i="${b.id}">ثبت</button></div>
+ ${logs.map(r=>`<div class="fl row2"><span class="mut">${jd(r.d)}</span><span class="f1">${fa(num(r.pages))} صفحه، ${fa(num(r.min))} دقیقه</span>${delB('rlog',r.id,'','✕')}</div>`).join('')}
+ <div class="mt">${delB('book',b.id,'','حذف کتاب')}</div></details>`}
+function gRead(){
+ const ord={reading:0,want:1,pause:2,done:3},bs=[...D.book].sort((a,b)=>(ord[a.st]??4)-(ord[b.st]??4));
+ return `<div class="grid g4" data-sum="rd" data-arg="">${SUMS.rd()}</div>
+ <div class="pn mt"><div class="fl"><input class="in f2" id="nk-t" data-enter="bookadd" placeholder="عنوان کتاب" aria-label="عنوان کتاب"><input class="in f1" id="nk-a" placeholder="نویسنده" aria-label="نویسنده"><input class="in" id="nk-p" style="flex:0 1 120px" inputmode="numeric" placeholder="تعداد صفحه" aria-label="تعداد صفحه"><button class="btn pri" data-act="bookadd">افزودن کتاب</button></div></div>
+ ${bs.length?bs.map(bookCard).join(''):empty('هنوز کتابی ثبت نشده است. کتابی که می‌خوانید یا می‌خواهید بخوانید را اضافه کنید.')}`}
+function skillCard(s){
+ const logs=D.sprac.filter(p=>p.sid===s.id).sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,6);
+ return `<details class="pn" data-oid="k-${s.id}"><summary><b class="f1">${esc(s.name||'(بدون نام)')}</b>${sumBox('sk',s.id,'span','fl')}</summary>
+ ${sumBox('sbar',s.id,'div')}
+ <div class="grid g3 mt">${fld('نام مهارت',inp('skill',s.id,'name',s.name,{a:'نام مهارت'}))}${fld('سطح فعلی (۰ تا ۱۰۰)',inp('skill',s.id,'level',s.level,{t:'p',a:'سطح فعلی'}))}${fld('سطح هدف (۰ تا ۱۰۰)',inp('skill',s.id,'target',s.target,{t:'p',a:'سطح هدف'}))}</div>
+ ${fld('چرا و چگونه؟ (برنامهٔ یادگیری)',ta('skill',s.id,'plan',s.plan,{r:3,a:'برنامهٔ یادگیری'}),'mt')}${fld('منابع (دوره، کتاب، لینک)',ta('skill',s.id,'res',s.res,{r:2,a:'منابع'}),'mt')}
+ <div class="h2 mt">ثبت تمرین</div>
+ <div class="fl rf"><input class="in rd" dir="ltr" style="flex:0 1 135px" value="${today()}" aria-label="تاریخ"><input class="in rm" style="flex:0 1 110px" inputmode="numeric" placeholder="دقیقه" aria-label="دقیقه"><input class="in f2 rt" placeholder="چه کاری کردید؟" aria-label="شرح"><button class="btn" data-act="spadd" data-i="${s.id}">ثبت</button></div>
+ ${logs.map(p=>`<div class="fl row2"><span class="mut">${jd(p.d)}</span><span class="f1">${fa(num(p.min))} دقیقه${p.note?'، '+esc(p.note):''}</span>${delB('sprac',p.id,'','✕')}</div>`).join('')}
+ <div class="mt">${delB('skill',s.id,'','حذف مهارت')}</div></details>`}
+function gSkill(){
+ return `<div class="pn"><div class="fl"><input class="in f2" id="nk-n" data-enter="skadd" placeholder="مهارت تازه (مثلاً: طراحی رابط کاربری)" aria-label="نام مهارت"><button class="btn pri" data-act="skadd">افزودن مهارت</button></div></div>
+ ${D.skill.length?D.skill.map(skillCard).join(''):empty('هنوز مهارتی ثبت نشده است. مهارتی که می‌خواهید یاد بگیرید را بنویسید و سطح فعلی و هدفتان را تعیین کنید.')}`}
+function gJour(){
+ const d=F.jd||today(),e=D.jour.find(x=>x.d===d)||{mood:0,gr:'',lesson:'',txt:''},l14=lastDays(14),L=[...D.jour].sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,15);
+ return `<div class="pn"><div class="fl"><b class="f1">دفتر روز ${jd(d)}</b><input id="jd" class="in" style="flex:0 1 140px" dir="ltr" data-f="jd" value="${d}" aria-label="تاریخ دفتر"></div>
+ <div class="mut mt">حال و هوای این روز</div><div class="moods">${[1,2,3,4,5].map(n=>`<button class="mood" data-act="jmood" data-v="${n}" data-d="${d}" aria-pressed="${e.mood===n}"><span aria-hidden="true">${EMO[n-1]}</span>${MOOD[n]}</button>`).join('')}</div>
+ ${[['gr','سه چیزی که برایشان سپاسگزارم'],['lesson','درسی که امروز گرفتم'],['txt','یادداشت آزاد']].map(([k,l])=>fld(l,`<textarea class="in" rows="3" data-jour="${k}" data-d="${d}" aria-label="${l}">${esc(e[k])}</textarea>`,'mt')).join('')}</div>
+ <div class="pn"><div class="h2">حال و هوا در ۱۴ روز اخیر</div><div class="dots">${l14.map(x=>{const j=D.jour.find(y=>y.d===x),m=j&&j.mood;return `<button class="dot${x===d?' t':''}" data-act="jopen" data-d="${x}" aria-label="${jd(x)}${m?'، '+MOOD[m]:''}" title="${jd(x)}">${m?EMO[m-1]:fa(+x.slice(8))}</button>`}).join('')}</div></div>
+ ${L.length?`<div class="pn"><div class="h2">نوشته‌های اخیر</div>${L.map(j=>`<div class="row"><span></span><div><button class="btn sm" data-act="jopen" data-d="${j.d}">${jd(j.d)}</button> ${j.mood?EMO[j.mood-1]:''}<div class="mut">${esc((j.lesson||j.txt||j.gr||'').slice(0,120))}</div></div></div>`).join('')}</div>`:''}`}
+const GV={habit:gHabit,work:gWork,read:gRead,skill:gSkill,jour:gJour};
+function vGrow(){const tabs=[['habit','عادت‌ها'],['work','ورزش'],['read','مطالعه'],['skill','مهارت‌ها'],['jour','دفتر روزانه']];
+ return `<h1 class="h1">رشد فردی</h1><div class="chips" role="group" aria-label="بخش‌های رشد فردی">${tabs.map(([k,l])=>`<button class="chip" data-act="gt" data-v="${k}" aria-pressed="${GT===k}">${l}</button>`).join('')}</div>${GV[GT]()}`}
+
+/* ================= جلسات تفکر ================= */
+function sessCard(s){
+ const cand=[['اهداف','goal',D.goal],['ایده‌ها و طرح‌ها','idea',D.idea],['پروژه‌ها','proj',D.proj]].map(([lab,k,arr])=>[lab,arr.filter(e=>!s.items.some(i=>i.kind===k&&i.ref===e.id)).map(e=>[k+'|'+e.id,entName(e)])]).filter(g=>g[1].length);
+ return `<details class="pn" data-oid="s-${s.id}"><summary><b class="f1">${esc(s.t||'(بدون عنوان)')}</b><span class="mut">${jd(s.d)}</span>${badge(SESK[s.kind])}${badge(MST[s.st])}<span class="mut">${fa(s.items.length)} موضوع، ${fa(s.res.length)} مصوبه</span></summary>
+ <div class="grid g3">${fld('عنوان جلسه',inp('sess',s.id,'t',s.t,{a:'عنوان جلسه'}))}${fld('تاریخ',dt('sess',s.id,'d',s.d,{a:'تاریخ'}))}${fld('نوع',sel('sess',s.id,'kind',SESK,s.kind,{a:'نوع جلسه'}))}${fld('وضعیت',sel('sess',s.id,'st',MST,s.st,{a:'وضعیت'}))}${fld('مکان یا حال و هوا',inp('sess',s.id,'place',s.place,{a:'مکان',ph:'مثلاً: پارک، کافه، اتاق کار'}))}</div>
+ ${fld('محورها و پرسش‌های جلسه',ta('sess',s.id,'agenda',s.agenda,{r:5,a:'محورها'}),'mt')}
+ <div class="h2 mt">موضوعات بررسی‌شده (اهداف، ایده‌ها، پروژه‌ها)</div>
+ <select class="in" data-sel="sitem" data-i="${s.id}" aria-label="افزودن موضوع"><option value="">＋ افزودن هدف، ایده یا پروژه به دستور جلسه…</option>${cand.map(g=>`<optgroup label="${g[0]}">${g[1].map(o=>`<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</optgroup>`).join('')}</select>
+ ${s.items.map(it=>{const e=entOf(it);return `<div class="pn2"><div class="fl"><span class="badge">${it.kind==='goal'?'هدف':it.kind==='idea'?'ایده':'پروژه'}</span><b class="f1">${esc(entName(e))}</b><button class="btn sm dng" data-act="del" data-c="ri" data-i="${it.id}" data-p="${s.id}">برداشتن</button></div><div class="fl mt"><span class="mut">تصمیم:</span>${sel('ri',it.id,'verdict',VD,it.verdict,{p:s.id,a:'تصمیم'})}<div class="f2">${inp('ri',it.id,'vnote',it.vnote,{p:s.id,a:'توضیح تصمیم',ph:'توضیح تصمیم'})}</div></div></div>`}).join('')}
+ ${fld('تأملات و نتیجه‌گیری',ta('sess',s.id,'notes',s.notes,{r:6,a:'تأملات'}),'mt')}
+ <div class="h2 mt">مصوبات</div>
+ <div class="fl rf"><input class="in f2 rt" placeholder="مصوبهٔ تازه (چه کاری، تا کی؟)" aria-label="متن مصوبه"><input class="in rd" dir="ltr" style="flex:0 1 135px" placeholder="مهلت 1405/01/01" aria-label="مهلت"><button class="btn" data-act="resadd" data-i="${s.id}">افزودن مصوبه</button></div>
+ ${s.res.map(r=>{const T=r.tid&&D.task.find(t=>t.id===r.tid),od=r.st!=='done'&&r.due&&r.due<today();return `<div class="row${r.st==='done'?' done':''}"><span></span><div class="rb">${inp('rs',r.id,'t',r.t,{p:s.id,cls:'tt',a:'متن مصوبه'})}<div class="fl">${dt('rs',r.id,'due',r.due,{p:s.id,late:od,a:'مهلت'})}${sel('rs',r.id,'st',TS,r.st,{p:s.id,a:'وضعیت'})}${T?'<span class="badge">در تسک‌ها هست</span>':`<button class="btn sm" data-act="res2task" data-p="${s.id}" data-i="${r.id}">تبدیل به تسک</button>`}${delB('rs',r.id,s.id)}</div></div></div>`}).join('')}
+ <div class="mt">${delB('sess',s.id,'','حذف جلسه')}</div></details>`}
+function vSess(){
+ const showDone=!!F.sd,A=[];D.sess.forEach(s=>s.res.forEach(r=>{if(showDone||r.st!=='done')A.push({s,r})}));A.sort((a,b)=>(a.r.due||'9').localeCompare(b.r.due||'9'));
+ const t0=today(),lateN=A.filter(x=>x.r.st!=='done'&&x.r.due&&x.r.due<t0).length;
+ return `<h1 class="h1">جلسات تفکر</h1>
+ <div class="pn"><div class="fl"><input class="in f2" id="ns-t" data-enter="sessadd" placeholder="عنوان جلسه (مثلاً: مرور هفتهٔ ۱۷ مهر)" aria-label="عنوان جلسه"><select class="in" id="ns-k" aria-label="نوع جلسه">${optS(SESK,'week')}</select>${addDate('ns-d',t0)}<button class="btn pri" data-act="sessadd">شروع جلسه</button></div><div class="mut mt">نوع جلسه، پرسش‌های آماده‌ای برای محورها می‌گذارد که می‌توانید تغییرشان دهید.</div></div>
+ <details class="pn" data-oid="s-fol" open><summary><b>پیگیری مصوبات</b><span class="mut">${fa(openRes().length)} باز${lateN?`، <span class="late">${fa(lateN)} عقب‌افتاده</span>`:''}</span></summary>
+  <label class="fl" style="margin-bottom:6px"><input type="checkbox" data-f="sd" data-fchk="1"${showDone?' checked':''}> نمایش انجام‌شده‌ها</label>
+  ${A.length?A.map(({s,r})=>`<div class="row${r.st==='done'?' done':''}"><span></span><div class="fl"><div class="f2"><span class="tt">${esc(r.t||'(بدون عنوان)')}</span><div class="mut">${esc(s.t)}${r.due?'، مهلت '+jd(r.due):''}${r.st!=='done'&&r.due&&r.due<t0?' <span class="late">(عقب‌افتاده)</span>':''}</div></div>${sel('rs',r.id,'st',TS,r.st,{p:s.id,a:'وضعیت مصوبه'})}<button class="btn sm" data-act="gosess" data-i="${s.id}">رفتن به جلسه</button></div></div>`).join(''):empty('مصوبهٔ بازی نیست.')}</details>
+ ${D.sess.length?[...D.sess].sort((a,b)=>(b.d||'').localeCompare(a.d||'')).map(sessCard).join(''):empty('هنوز جلسه‌ای نداشته‌اید. جلسهٔ تفکر زمانی است که با خودتان می‌نشینید، پرسش‌ها را می‌نویسید، اهداف و ایده‌ها را مرور می‌کنید و مصوبه می‌گیرید.')}`}
+
+/* ================= رندر ================= */
+const VIEWS={today:vToday,search:vSearch,task:vTasks,proj:vProjects,fin:vFin,buy:vBuy,goal:vGoals,idea:vIdeas,grow:vGrow,sess:vSess};
+
+/* ================= جستجوی یکپارچه: همهٔ بخش‌ها از دادهٔ اصلی ================= */
+function vSearch(){
+ const q=String(F.gq||'').trim().toLocaleLowerCase();
+ const defs=[
+  ['task','تسک‌ها',D.task,x=>[x.t,x.desc,x.area,x.st]],
+  ['proj','پروژه‌ها',D.proj,x=>[x.name,x.desc,x.status]],
+  ['fin','تراکنش‌های مالی',D.tx,x=>[x.t,x.cat,x.type,x.d]],
+  ['buy','خریدها',D.buy,x=>[x.t,x.note,x.link,x.st]],
+  ['goal','اهداف',D.goal,x=>[x.t,x.desc,x.kpi,x.cat]],
+  ['idea','ایده‌ها',D.idea,x=>[x.t,x.desc,x.type,x.st]],
+  ['grow','کتاب‌ها',D.book,x=>[x.t,x.author,x.note]],
+  ['grow','ورزش',D.work,x=>[x.type,x.note,x.d]],
+  ['grow','مهارت‌ها',D.skill,x=>[x.name,x.plan,x.res]],
+  ['grow','عادت‌ها',D.habit,x=>[x.name]],
+  ['grow','یادداشت روزانه',D.jour,x=>[x.txt,x.gr,x.lesson,x.d]],
+  ['sess','جلسات تفکر',D.sess,x=>[x.t,x.agenda,x.notes,x.place]],
+  ['sess','مصوبه‌های جلسات',D.sess.flatMap(s=>(s.res||[]).map(r=>({...r,sessionTitle:s.t,sessionId:s.id}))),x=>[x.t,x.sessionTitle]]
+ ];
+ const results=[];
+ if(q) for(const [view,label,arr,fields] of defs) for(const x of arr){
+  const text=fields(x).filter(Boolean).join(' ').toLocaleLowerCase();
+  if(text.includes(q)) results.push({view,label,x,text});
+ }
+ const shown=results.slice(0,100);
+ return `<h1 class="h1">جستجوی کل دفتر</h1>
+ <p class="mut" style="margin-bottom:10px">یک‌بار جستجو کنید تا تسک‌ها، پروژه‌ها، مالی، خریدها، اهداف، ایده‌ها و یادداشت‌های رشد فردی را با هم پیدا کنید. نتایج از داده‌های ذخیره‌شدهٔ همان بخش‌ها خوانده می‌شوند؛ نسخهٔ جداگانه‌ای ساخته نمی‌شود.</p>
+ <div class="pn"><input class="in" style="width:100%" id="gs-q" data-f="gq" value="${esc(F.gq||'')}" placeholder="جستجو در تمام دفتر…" aria-label="جستجو در تمام دفتر" autofocus>
+ ${!q?`<p class="mut mt">برای شروع، یک واژه وارد کنید.</p>`:shown.length?`<p class="mut mt">${fa(results.length)} نتیجه${results.length>100?' (۱۰۰ نتیجهٔ اول نمایش داده می‌شود)':''}</p><div class="mt">${shown.map(r=>`<button class="pn" style="display:block;width:100%;text-align:right;cursor:pointer;margin-bottom:8px" data-act="searchgo" data-v="${r.view}" data-q="${esc(q)}" data-gt="${r.label==='کتاب‌ها'?'read':r.label==='ورزش'?'work':r.label==='مهارت‌ها'?'skill':r.label==='عادت‌ها'?'habit':r.label==='یادداشت روزانه'?'jour':''}" data-i="${esc(r.x.id||r.x.sessionId||'')}"><b>${esc(r.label)}</b><div>${esc(r.x.t||r.x.name||r.x.type||r.x.cat||'بدون عنوان')}</div><small class="mut">${esc([r.x.d,r.x.due,r.x.author,r.x.cat,r.x.sessionTitle].filter(Boolean).join(' · '))}</small></button>`).join('')}</div>`:empty('نتیجه‌ای پیدا نشد.')}</div>`;
+}
+
+function render(){
+ const m=$('#main');if(!m)return;const ae=document.activeElement,aid=ae&&ae.id&&m.contains(ae)?ae.id:null,ss=aid&&ae.selectionStart!=null?ae.selectionStart:null;
+ $$('details[data-oid]',m).forEach(d=>{d.open?open.add(d.dataset.oid):open.delete(d.dataset.oid)});
+ const y=window.scrollY;
+ m.innerHTML=(VIEWS[V]||vToday)();
+ $$('details[data-oid]',m).forEach(d=>{if(open.has(d.dataset.oid))d.open=true});
+ window.scrollTo(0,y);
+ if(aid){const n=document.getElementById(aid);if(n){n.focus({preventScroll:true});if(ss!=null)try{n.setSelectionRange(ss,ss)}catch(_){}}}
+ $$('.nb').forEach(b=>b.setAttribute('aria-current',b.dataset.v===V?'page':'false'));
+}
+function go(v){V=v;F={};render();window.scrollTo(0,0)}
+
+/* ================= ویرایش فیلدها ================= */
+function getObj(c,i,p){
+ if(c==='kr'){const g=D.goal.find(x=>x.id===p);return g&&g.kr.find(x=>x.id===i)}
+ if(c==='ri'){const s=D.sess.find(x=>x.id===p);return s&&s.items.find(x=>x.id===i)}
+ if(c==='rs'){const s=D.sess.find(x=>x.id===p);return s&&s.res.find(x=>x.id===i)}
+ return D[c]&&D[c].find(x=>x.id===i)}
+const ROOT={kr:'goal',ri:'sess',rs:'sess'};
+function setTaskSt(t,st){t.st=st;if(st==='done')t.doneAt=today();else delete t.doneAt}
+function applyVerdict(it){
+ const e=entOf(it);if(!e)return;const v=it.verdict;
+ if(it.kind==='goal'){if(v==='approved'&&['hold','dropped'].includes(e.st))e.st='active';else if(v==='rejected'&&e.st==='active')e.st='dropped';touch('goal')}
+ else if(it.kind==='idea'){if(v==='approved'&&['new','review','rejected','hold'].includes(e.st))e.st='approved';else if(v==='rejected'&&!['doing','done'].includes(e.st))e.st='rejected';else if((v==='pending'||v==='postponed')&&['approved','rejected'].includes(e.st))e.st='review';touch('idea')}}
+function syncBuy(b){
+ const tx=b.txid&&D.tx.find(x=>x.id===b.txid);
+ if(b.st==='bought'&&num(b.price)>0){
+  if(!b.d)b.d=today();
+  if(tx){tx.t=b.t;tx.amt=num(b.price);tx.d=b.d}
+  else{const x={id:rid(),type:'out',t:b.t,cat:'خرید',amt:num(b.price),d:b.d,pid:'',bid:b.id};D.tx.push(x);b.txid=x.id}
+ }else if(tx){D.tx=D.tx.filter(x=>x.id!==tx.id);b.txid='';if(b.st!=='bought')b.d=''}
+ touch('buy','tx')}
+function fieldEvt(e,commit){
+ const el=e.target;if(!el||!el.dataset)return;const ds=el.dataset;
+ if(ds.f!==undefined){
+  if(el.tagName==='SELECT'&&!commit)return;if(el.tagName==='INPUT'&&el.type!=='checkbox'&&commit)return;
+  let v=el.type==='checkbox'?el.checked:el.value;
+  if(ds.f==='jd'){const n=nd(v);if(!n)return;v=n}
+  F[ds.f]=v;render();return}
+ if(ds.sel){if(commit)SEL[ds.sel]&&SEL[ds.sel](el);return}
+ if(ds.jour){const d=ds.d;let j=D.jour.find(x=>x.d===d);if(!j){j={id:rid(),d,mood:0,gr:'',lesson:'',txt:''};D.jour.push(j)}j[ds.jour]=el.value;touch('jour');return}
+ if(ds.bud!==undefined){if(!commit)return;const v=num(el.value);if(v>0)D.set.budgets[ds.bud]=v;else delete D.set.budgets[ds.bud];touch('set');refreshSums();return}
+ const c=ds.c;if(!c)return;
+ if(!commit&&(el.tagName==='SELECT'||el.type==='checkbox'||el.type==='range'))return;
+ const o=getObj(c,ds.i,ds.p);if(!o)return;const k=ds.k,t=ds.t;
+ let v=el.type==='checkbox'?el.checked:el.value;
+ if(t==='d'){const n=nd(v);if(n===null){el.setAttribute('aria-invalid','true');return}el.removeAttribute('aria-invalid');v=n;if(commit)el.value=n;const j=el.parentElement&&el.parentElement.querySelector('.jd');if(j)j.textContent=jd(n)}
+ if(t==='n')v=num(v);if(t==='p')v=Math.max(0,Math.min(100,num(v)));
+ if(c==='task'&&(k==='chk'||k==='st'))setTaskSt(o,k==='chk'?(v?'done':'todo'):v);
+ else if(c==='goal'&&k==='st'){o.st=v}
+ else if(c==='book'&&k==='st'){o.st=v;if(v==='done'){o.doneAt=today();if(num(o.pages))o.cur=num(o.pages)}else delete o.doneAt}
+ else if(c==='work'&&k==='int')o.int=+v;
+ else if(c==='book'&&k==='rate')o.rate=+v||0;
+ else o[k]=v;
+ if(c==='ri'&&k==='verdict')applyVerdict(o);
+ if(c==='buy'&&['st','price','d','t'].includes(k))syncBuy(o);
+ // تراکنش متصل به خرید، نمای مالی همان خرید است؛ ویرایش از هر دو بخش همگام می‌شود.
+ if(c==='tx'&&o.bid){
+  const b=D.buy.find(x=>x.id===o.bid);
+  if(b){
+   if(k==='t')b.t=o.t;
+   if(k==='amt')b.price=num(o.amt);
+   if(k==='d')b.d=o.d;
+   touch('buy');
+  }
+ }
+ touch(ROOT[c]||c);
+ if(ds.r)render();else if(commit)refreshSums();
+}
+document.addEventListener('input',e=>fieldEvt(e,false));
+document.addEventListener('change',e=>fieldEvt(e,true));
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&$('#ov').classList.contains('on')){$('#ov').classList.remove('on');return}
+ if(e.key==='Enter'&&e.target.dataset){const a=e.target.dataset.enter;if(a&&ACT[a]){e.preventDefault();ACT[a](e.target);return}const g=e.target.dataset.enterKr;if(g){e.preventDefault();ACT.kradd(e.target.closest('.rf').querySelector('[data-act=kradd]'))}}
+});
+
+/* ================= حذف ================= */
+function removeItem(c,i,p){
+ if(c==='proj'){D.proj=D.proj.filter(x=>x.id!==i);['task','tx','goal','idea'].forEach(k=>D[k].forEach(x=>{if(x.pid===i)x.pid=''}));D.sess.forEach(s=>s.items=s.items.filter(it=>!(it.kind==='proj'&&it.ref===i)));touch('proj','task','tx','goal','idea','sess');return}
+ if(c==='goal'||c==='idea'){D[c]=D[c].filter(x=>x.id!==i);D.sess.forEach(s=>s.items=s.items.filter(it=>!(it.kind===c&&it.ref===i)));touch(c,'sess');return}
+ if(c==='book'){D.book=D.book.filter(x=>x.id!==i);D.rlog=D.rlog.filter(x=>x.bid!==i);touch('book','rlog');return}
+ if(c==='skill'){D.skill=D.skill.filter(x=>x.id!==i);D.sprac=D.sprac.filter(x=>x.sid!==i);touch('skill','sprac');return}
+ if(c==='buy'){const b=D.buy.find(x=>x.id===i);if(b&&b.txid)D.tx=D.tx.filter(x=>x.id!==b.txid);D.buy=D.buy.filter(x=>x.id!==i);touch('buy','tx');return}
+ if(c==='tx'){D.tx=D.tx.filter(x=>x.id!==i);D.buy.forEach(b=>{if(b.txid===i)b.txid=''});touch('tx','buy');return}
+ if(c==='task'){D.task=D.task.filter(x=>x.id!==i);D.sess.forEach(s=>s.res.forEach(r=>{if(r.tid===i)r.tid=''}));touch('task','sess');return}
+ if(c==='kr'){const g=D.goal.find(x=>x.id===p);if(g)g.kr=g.kr.filter(x=>x.id!==i);touch('goal');return}
+ if(c==='log'){const e=D.idea.find(x=>x.id===p);if(e)e.log=e.log.filter(x=>x.id!==i);touch('idea');return}
+ if(c==='ri'){const s=D.sess.find(x=>x.id===p);if(s)s.items=s.items.filter(x=>x.id!==i);touch('sess');return}
+ if(c==='rs'){const s=D.sess.find(x=>x.id===p);if(s)s.res=s.res.filter(x=>x.id!==i);touch('sess');return}
+ if(D[c]){D[c]=D[c].filter(x=>x.id!==i);touch(c)}}
+
+/* ================= رویدادهای کلیک ================= */
+const rf=b=>b.closest('.rf');
+const ACT={
+ searchgo:b=>{V=b.dataset.v;F={q:b.dataset.q||''};if(b.dataset.gt)GT=b.dataset.gt;if(V==='sess'&&b.dataset.i)open.add('s-'+b.dataset.i);if(V==='goal'&&b.dataset.i)open.add('g-'+b.dataset.i);if(V==='idea'&&b.dataset.i)open.add('i-'+b.dataset.i);if(V==='grow'&&b.dataset.i)open.add((GT==='read'?'b-':GT==='skill'?'k-':'')+b.dataset.i);render();window.scrollTo(0,0)},
+ go:b=>go(b.dataset.v),
+ f:b=>{F[b.dataset.k]=b.dataset.v;render()},
+ gt:b=>{GT=b.dataset.v;F={};render()},
+ theme:()=>{let t='';try{t=localStorage.getItem(TK)||''}catch(e){}const n=t===''?'light':t==='light'?'dark':'';try{localStorage.setItem(TK,n)}catch(e){}applyTheme(n);toast('پوسته: '+(n===''?'خودکار':n==='light'?'روشن':'تیره'))},
+ del:b=>{
+  if(b.dataset.armed!=='1'){b.dataset.armed='1';b._t=b.textContent;b.textContent='تأیید حذف؟';b.classList.add('arm');setTimeout(()=>{if(b.isConnected){b.dataset.armed='';b.textContent=b._t;b.classList.remove('arm')}},3500);return}
+  removeItem(b.dataset.c,b.dataset.i,b.dataset.p);render()},
+ addtask:()=>{const t=gv('nt-t');if(!t){focusId('nt-t');return}const d=nd(gv('nt-d'));if(d===null){bad('nt-d');return}
+  D.task.unshift({id:rid(),t,area:gv('nt-a')||'work',pid:gv('nt-p'),due:d||'',prio:gv('nt-r')||'mid',st:'todo',desc:''});touch('task');render();focusId('nt-t')},
+ qtask:()=>{const t=gv('qt-t');if(!t){focusId('qt-t');return}D.task.unshift({id:rid(),t,area:gv('qt-a')||'personal',pid:'',due:today(),prio:'mid',st:'todo',desc:''});touch('task');render();focusId('qt-t')},
+ ptask:b=>{const f=rf(b),t=f.querySelector('.rt').value.trim();if(!t){f.querySelector('.rt').focus();return}const d=nd(f.querySelector('.rd').value);if(d===null){toast('موعد معتبر نیست؛ نمونه: 1405/01/01');return}
+  D.task.unshift({id:rid(),t,area:'work',pid:b.dataset.i,due:d||'',prio:'mid',st:'todo',desc:''});open.add('p-'+b.dataset.i);touch('task');render()},
+ ptx:b=>{const f=rf(b),a=num(f.querySelector('.ra').value);if(!a){f.querySelector('.ra').focus();return}
+  D.tx.push({id:rid(),type:f.querySelector('.rty').value,t:f.querySelector('.rt').value.trim(),cat:'',amt:a,d:today(),pid:b.dataset.i});open.add('p-'+b.dataset.i);touch('tx');render()},
+ addproj:()=>{const n=gv('np-n');if(!n){focusId('np-n');return}const p={id:rid(),name:n,status:'plan',prio:'mid',start:today(),due:'',budget:'',link:'',desc:''};D.proj.unshift(p);open.add('p-'+p.id);touch('proj');render()},
+ finm:b=>{FM=ymAdd(FM,+b.dataset.n);render()},
+ finall:()=>{FA=!FA;render()},
+ addtx:()=>{const a=num(gv('nx-a'));if(!a){focusId('nx-a');return}const d=nd(gv('nx-d'));if(d===null||d===''){bad('nx-d');return}
+  D.tx.push({id:rid(),type:gv('nx-y')||'out',t:gv('nx-t'),cat:gv('nx-c'),amt:a,d,pid:gv('nx-p')});touch('tx');render();focusId('nx-t')},
+ addbuy:()=>{const t=gv('nb-t');if(!t){focusId('nb-t');return}D.buy.unshift({id:rid(),t,price:num(gv('nb-p'))||'',kind:gv('nb-k')||'want',prio:gv('nb-r')||'mid',st:'want',link:'',note:'',d:'',txid:''});touch('buy');render();focusId('nb-t')},
+ bought:b=>{const x=D.buy.find(y=>y.id===b.dataset.i);if(!x)return;x.st='bought';x.d=today();syncBuy(x);if(num(x.price)>0)toast('به‌عنوان هزینه ثبت شد');render()},
+ addgoal:()=>{const t=gv('ng-t');if(!t){focusId('ng-t');return}const d=nd(gv('ng-d'));if(d===null){bad('ng-d');return}
+  const g={id:rid(),t,cat:gv('ng-c')||'personal',hz:gv('ng-h')||'mid',due:d||'',st:'active',prog:0,kpi:'',desc:'',pid:'',kr:[]};D.goal.unshift(g);open.add('g-'+g.id);touch('goal');render()},
+ kradd:b=>{const f=rf(b),t=f.querySelector('.rt').value.trim();if(!t){f.querySelector('.rt').focus();return}const g=D.goal.find(x=>x.id===b.dataset.i);if(!g)return;g.kr.push({id:rid(),t,done:false});open.add('g-'+g.id);touch('goal');render()},
+ addidea:()=>{const t=gv('ni-t');if(!t){focusId('ni-t');return}const e={id:rid(),t,type:gv('ni-y')||'idea',st:'new',prio:gv('ni-r')||'mid',pid:gv('ni-p'),desc:'',prog:0,log:[]};D.idea.unshift(e);open.add('i-'+e.id);touch('idea');render()},
+ logadd:b=>{const f=rf(b),t=f.querySelector('.rt').value.trim();if(!t){f.querySelector('.rt').focus();return}const d=nd(f.querySelector('.rd').value);if(d===null){toast('تاریخ معتبر نیست؛ نمونه: 1405/01/01');return}
+  const e=D.idea.find(x=>x.id===b.dataset.i);if(!e)return;e.log.push({id:rid(),d:d||today(),txt:t});open.add('i-'+e.id);touch('idea');render()},
+ hadd:()=>{const n=gv('nh-n');if(!n){focusId('nh-n');return}D.habit.push({id:rid(),name:n,log:[],arch:false});touch('habit');render();focusId('nh-n')},
+ hdot:b=>{const h=D.habit.find(x=>x.id===b.dataset.i);if(!h)return;const d=b.dataset.d;h.log=h.log.includes(d)?h.log.filter(x=>x!==d):[...h.log,d];touch('habit');render()},
+ htoggle:b=>{const h=D.habit.find(x=>x.id===b.dataset.i);if(!h)return;const d=today();h.log=h.log.includes(d)?h.log.filter(x=>x!==d):[...h.log,d];touch('habit');render()},
+ harch:b=>{const h=D.habit.find(x=>x.id===b.dataset.i);if(!h)return;h.arch=!h.arch;touch('habit');render()},
+ wadd:()=>{const m=num(gv('nw-m'));if(!m){focusId('nw-m');return}const d=nd(gv('nw-d'));if(d===null||d===''){bad('nw-d');return}
+  D.work.push({id:rid(),d,type:gv('nw-t'),min:m,int:+gv('nw-i')||2,note:gv('nw-n')});touch('work');render();focusId('nw-m')},
+ bookadd:()=>{const t=gv('nk-t');if(!t){focusId('nk-t');return}const b={id:rid(),t,author:gv('nk-a'),pages:num(gv('nk-p'))||'',cur:0,st:'want',rate:0,note:''};D.book.unshift(b);open.add('b-'+b.id);touch('book');render()},
+ rlogadd:b=>{const f=rf(b),bk=D.book.find(x=>x.id===b.dataset.i);if(!bk)return;const pg=num(f.querySelector('.rp').value),mn=num(f.querySelector('.rm').value);if(!pg&&!mn){f.querySelector('.rp').focus();return}
+  const d=nd(f.querySelector('.rd').value);if(d===null||d===''){toast('تاریخ معتبر نیست؛ نمونه: 1405/01/01');return}
+  D.rlog.push({id:rid(),bid:bk.id,d,pages:pg,min:mn});
+  if(pg){const tot=num(bk.pages);bk.cur=num(bk.cur)+pg;if(tot&&bk.cur>=tot){bk.cur=tot;bk.st='done';bk.doneAt=d}else if(bk.st==='want'||bk.st==='pause')bk.st='reading'}
+  open.add('b-'+bk.id);touch('rlog','book');render()},
+ skadd:()=>{const n=gv('nk-n');if(!n){focusId('nk-n');return}const s={id:rid(),name:n,level:0,target:100,plan:'',res:''};D.skill.unshift(s);open.add('k-'+s.id);touch('skill');render()},
+ spadd:b=>{const f=rf(b),m=num(f.querySelector('.rm').value);if(!m){f.querySelector('.rm').focus();return}const d=nd(f.querySelector('.rd').value);if(d===null||d===''){toast('تاریخ معتبر نیست؛ نمونه: 1405/01/01');return}
+  D.sprac.push({id:rid(),sid:b.dataset.i,d,min:m,note:f.querySelector('.rt').value.trim()});open.add('k-'+b.dataset.i);touch('sprac');render()},
+ jmood:b=>{const d=b.dataset.d,v=+b.dataset.v;let j=D.jour.find(x=>x.d===d);if(!j){j={id:rid(),d,mood:0,gr:'',lesson:'',txt:''};D.jour.push(j)}j.mood=j.mood===v?0:v;touch('jour');render()},
+ jopen:b=>{F.jd=b.dataset.d;V='grow';GT='jour';render()},
+ sessadd:()=>{const d=nd(gv('ns-d'));if(d===null||d===''){bad('ns-d');return}const k=gv('ns-k')||'think',t=gv('ns-t')||(SESK[k]+' '+jd(d));
+  const s={id:rid(),t,d,place:'',kind:k,st:'plan',agenda:SESTPL[k]||'',notes:'',items:[],res:[]};D.sess.unshift(s);open.add('s-'+s.id);touch('sess');render()},
+ resadd:b=>{const f=rf(b),t=f.querySelector('.rt').value.trim();if(!t){f.querySelector('.rt').focus();return}const d=nd(f.querySelector('.rd').value);if(d===null){toast('مهلت معتبر نیست؛ نمونه: 1405/01/01');return}
+  const s=D.sess.find(x=>x.id===b.dataset.i);if(!s)return;s.res.push({id:rid(),t,due:d||'',st:'todo',tid:''});open.add('s-'+s.id);touch('sess');render()},
+ res2task:b=>{const s=D.sess.find(x=>x.id===b.dataset.p),r=s&&s.res.find(x=>x.id===b.dataset.i);if(!r)return;const t={id:rid(),t:r.t,area:'personal',pid:'',due:r.due||'',prio:'mid',st:r.st==='done'?'done':'todo',desc:'مصوبهٔ جلسه: '+(s.t||'')};if(t.st==='done')t.doneAt=today();D.task.unshift(t);r.tid=t.id;open.add('s-'+s.id);touch('task','sess');toast('به تسک‌ها اضافه شد');render()},
+ gosess:b=>{V='sess';F={};open.add('s-'+b.dataset.i);render();setTimeout(()=>{const n=document.querySelector('details[data-oid="s-'+b.dataset.i+'"]');if(n)n.scrollIntoView({block:'start'})},0)},
+ bkopen:()=>{$('#bk-t').value=JSON.stringify(D,null,1);$('#bk-m').textContent='این متن همهٔ داده‌های شماست. کپی یا ذخیره‌اش کنید تا نسخهٔ پشتیبان داشته باشید. برای بازیابی، متن پشتیبان را اینجا بچسبانید یا فایل را انتخاب کنید.';$('#ov').classList.add('on');$('#bk-t').focus()},
+ bkclose:()=>$('#ov').classList.remove('on'),
+ bkcopy:()=>{const t=$('#bk-t');t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast('کپی شد'),()=>{document.execCommand('copy');toast('کپی شد')})}catch(e){try{document.execCommand('copy');toast('کپی شد')}catch(_){toast('کپی نشد؛ متن را دستی انتخاب کنید')}}},
+ bkdl:async()=>{if(!dlApi)return;try{await dlApi.save({filename:'dafar-man-'+today().replace(/\//g,'-')+'.json',data:JSON.stringify(D,null,1)});toast('فایل ذخیره شد')}catch(e){if(!e||e.code!=='declined')toast('ذخیرهٔ فایل انجام نشد')}},
+ bkload:b=>{
+  if(b.dataset.armed!=='1'){b.dataset.armed='1';b._t=b.textContent;b.textContent='مطمئنید؟ داده‌های فعلی جایگزین می‌شود';setTimeout(()=>{if(b.isConnected){b.dataset.armed='';b.textContent=b._t}},4000);return}
+  b.dataset.armed='';b.textContent=b._t;importJSON($('#bk-t').value)}
+};
+const SEL={
+ refer:el=>{const s=D.sess.find(x=>x.id===el.value),kind=el.dataset.kind,id=el.dataset.i;if(!s)return;addItem(s,kind,id);open.add({goal:'g-',idea:'i-',proj:'p-'}[kind]+id);touch('sess');render()},
+ sitem:el=>{const v=el.value;if(!v)return;const[k,ref]=v.split('|'),s=D.sess.find(x=>x.id===el.dataset.i);if(!s)return;addItem(s,k,ref);open.add('s-'+s.id);touch('sess');render()}
+};
+function addItem(s,kind,ref){if(s.items.some(x=>x.kind===kind&&x.ref===ref))return;s.items.push({id:rid(),kind,ref,verdict:'pending',vnote:''});if(kind==='idea'){const e=D.idea.find(x=>x.id===ref);if(e&&e.st==='new'){e.st='review';touch('idea')}}}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-act]');if(!b)return;const f=ACT[b.dataset.act];if(f)f(b,e)});
+$('#nav').addEventListener('click',e=>{const b=e.target.closest('.nb');if(b)go(b.dataset.v)});
+$('#bk-f').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('#bk-t').value=String(r.result||'');$('#bk-m').textContent='فایل خوانده شد. برای اعمال، «جایگزینی با این متن» را بزنید.'};r.readAsText(f)});
+$('#ov').addEventListener('pointerdown',e=>{if(e.target===$('#ov'))$('#ov').classList.remove('on')});
+function importJSON(s){
+ try{const g=JSON.parse(s);if(!g||typeof g!=='object'||Array.isArray(g))throw 0;const d=blank();NAMES.forEach(n=>{if(Array.isArray(g[n]))d[n]=g[n]});if(g.set&&typeof g.set==='object')d.set=g.set;D=d;fixD();NAMES.forEach(n=>dirty.add(n));dirty.add('set');lsSave();persist();$('#ov').classList.remove('on');render();toast('داده‌ها بازیابی شد')}
+ catch(e){$('#bk-m').textContent='این متن، پشتیبان معتبر نیست. متن کامل پشتیبان یا فایل .json را وارد کنید.'}}
+function applyTheme(t){const r=document.documentElement;if(t)r.setAttribute('data-theme',t);else r.removeAttribute('data-theme')}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush();else pull()});
+window.addEventListener('pagehide',flush);
+
+/* ================= شروع ================= */
+function boot(){
+ try{applyTheme(localStorage.getItem(TK)||'')}catch(e){}
+ $('#nav').innerHTML=NAV.map(([k,l])=>`<button class="nb" data-v="${k}">${l}</button>`).join('');
+ loadLocal();setStatus('local');render();initCloud();
+}
+if(window.__TEST){window.__TEST({boot,initCloud,touch,persist,VIEWS,GV,ACT,SEL,D:()=>D,setD:x=>{D=x},fixD,g2j,today,nd,jd,setV:v=>{V=v},setGT:v=>{GT=v},SUMS,fieldEvt,removeItem,chunks,finCalc,streak,lastDays,num,fmt})}
+else boot();
+})();
+</script>
+</body>
+</html>
